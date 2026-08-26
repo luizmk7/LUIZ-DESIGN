@@ -858,7 +858,7 @@ export default function App() {
       {/* 3. HERO CINEMATOGRÁFICO */}
       <section
         id="heroSection"
-        className="relative w-full h-[92vh] min-h-[700px] flex items-center justify-center overflow-hidden bg-wine"
+        className="relative w-full h-[92vh] min-h-[750px] flex items-center justify-center overflow-hidden bg-wine"
       >
         {/* Layer 1: Parallax Background Photography */}
         <div className="absolute inset-0 z-0 overflow-hidden bg-ivory">
