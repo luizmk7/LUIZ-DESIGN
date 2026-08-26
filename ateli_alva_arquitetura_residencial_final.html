@@ -1,0 +1,1951 @@
+<!DOCTYPE html>
+<html lang="pt-BR" class="scroll-smooth">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Ateliê Alva — Arquitetura Residencial</title>
+    <meta name="description" content="Ateliê Alva — Arquitetura Residencial Brasileira Contemporânea. Projetos autorais que transformam necessidades em atmosferas.">
+
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;0,700;1,400;1,600&family=Manrope:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+
+    <!-- Tailwind CSS CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        'alva-white': '#FFFFFF',
+                        'warm-white': '#F8F5EF',
+                        'ivory': '#EFE9DF',
+                        'alva-red': '#9F2332',
+                        'deep-red': '#631520',
+                        'wine': '#421017',
+                        'matte-gold': '#B48A48',
+                        'light-gold': '#D7BB7D',
+                        'graphite': '#1E1D1B',
+                        'warm-gray': '#7B766E'
+                    },
+                    fontFamily: {
+                        serif: ['"Cormorant Garamond"', 'Georgia', 'serif'],
+                        sans: ['"Manrope"', 'sans-serif']
+                    }
+                }
+            }
+        }
+    </script>
+
+    <!-- Custom CSS & Cinematic Motion Utilities -->
+    <style>
+        :root {
+            --ease-cinematic: cubic-bezier(0.22, 1, 0.36, 1);
+            --ease-out-quad: cubic-bezier(0.25, 1, 0.5, 1);
+        }
+
+        html, body {
+            margin: 0;
+            padding: 0;
+            width: 100%;
+            overflow-x: hidden;
+            background-color: #FFFFFF;
+            color: #1E1D1B;
+            font-family: 'Manrope', sans-serif;
+            -webkit-font-smoothing: antialiased;
+        }
+
+        /* Focus Ring Styling for Accessibility */
+        *:focus-visible {
+            outline: 2px solid #B48A48;
+            outline-offset: 3px;
+        }
+
+        /* Hide scrollbars across all browsers */
+        * {
+            scrollbar-width: none; /* Firefox */
+            -ms-overflow-style: none; /* IE and Edge */
+        }
+        *::-webkit-scrollbar {
+            display: none;
+            width: 0;
+            height: 0;
+        }
+        html, body {
+            scrollbar-width: none;
+            -ms-overflow-style: none;
+        }
+        html::-webkit-scrollbar,
+        body::-webkit-scrollbar {
+            display: none;
+            width: 0;
+            height: 0;
+        }
+
+        /* Gold underline animation utility */
+        .gold-underline {
+            position: relative;
+        }
+        .gold-underline::after {
+            content: '';
+            position: absolute;
+            bottom: -4px;
+            left: 0;
+            width: 100%;
+            height: 1px;
+            background-color: #B48A48;
+            transform: scaleX(0);
+            transform-origin: right;
+            transition: transform 0.4s var(--ease-cinematic);
+        }
+        .gold-underline:hover::after, .gold-underline.active::after {
+            transform: scaleX(1);
+            transform-origin: left;
+        }
+
+        /* Header Transformation */
+        .header-scrolled {
+            background-color: rgba(255, 255, 255, 0.96) !important;
+            backdrop-filter: blur(12px);
+            box-shadow: 0 4px 25px rgba(0, 0, 0, 0.05);
+        }
+
+        /* Header Gold Line Draw */
+        .header-line {
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            height: 1px;
+            width: 100%;
+            background-color: #B48A48;
+            transform: scaleX(0);
+            transform-origin: left;
+            transition: transform 0.6s var(--ease-cinematic);
+        }
+        .header-scrolled .header-line {
+            transform: scaleX(1);
+        }
+
+        /* Content is visible by default. ONLY when motion-ready is added by JS are reveals initialized */
+        html.motion-ready .reveal-up {
+            opacity: 0;
+            transform: translateY(28px);
+            transition: opacity 0.8s var(--ease-cinematic), transform 0.8s var(--ease-cinematic);
+            will-change: opacity, transform;
+        }
+        html.motion-ready .reveal-up.is-revealed {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        html.motion-ready .reveal-left {
+            opacity: 0;
+            transform: translateX(-32px);
+            transition: opacity 0.85s var(--ease-cinematic), transform 0.85s var(--ease-cinematic);
+            will-change: opacity, transform;
+        }
+        html.motion-ready .reveal-left.is-revealed {
+            opacity: 1;
+            transform: translateX(0);
+        }
+
+        html.motion-ready .reveal-right {
+            opacity: 0;
+            transform: translateX(32px);
+            transition: opacity 0.85s var(--ease-cinematic), transform 0.85s var(--ease-cinematic);
+            will-change: opacity, transform;
+        }
+        html.motion-ready .reveal-right.is-revealed {
+            opacity: 1;
+            transform: translateX(0);
+        }
+
+        html.motion-ready .reveal-scale {
+            opacity: 0;
+            transform: scale(0.95);
+            transition: opacity 0.9s var(--ease-cinematic), transform 0.9s var(--ease-cinematic);
+            will-change: opacity, transform;
+        }
+        html.motion-ready .reveal-scale.is-revealed {
+            opacity: 1;
+            transform: scale(1);
+        }
+
+        /* Reveal Masks (Clip-path) */
+        html.motion-ready .reveal-mask-vert {
+            clip-path: inset(100% 0 0 0);
+            transition: clip-path 1.1s var(--ease-cinematic), transform 1.1s var(--ease-cinematic);
+            will-change: clip-path;
+        }
+        html.motion-ready .reveal-mask-vert.is-revealed {
+            clip-path: inset(0 0 0 0);
+        }
+
+        html.motion-ready .reveal-mask-horiz {
+            clip-path: inset(0 100% 0 0);
+            transition: clip-path 1.1s var(--ease-cinematic);
+            will-change: clip-path;
+        }
+        html.motion-ready .reveal-mask-horiz.is-revealed {
+            clip-path: inset(0 0 0 0);
+        }
+
+        /* Vertical Mask Text Lines */
+        .mask-line-container {
+            overflow: hidden;
+            display: block;
+        }
+        html.motion-ready .mask-line-inner {
+            display: inline-block;
+            transform: translateY(108%);
+            transition: transform 0.95s var(--ease-cinematic);
+            will-change: transform;
+        }
+        html.motion-ready .is-revealed .mask-line-inner,
+        html.motion-ready .mask-line-inner.is-revealed {
+            transform: translateY(0%);
+        }
+
+        /* Line Draw Utility */
+        html.motion-ready .line-draw-h {
+            transform: scaleX(0);
+            transform-origin: left;
+            transition: transform 1s var(--ease-cinematic);
+        }
+        html.motion-ready .line-draw-h.is-revealed {
+            transform: scaleX(1);
+        }
+
+        html.motion-ready .line-draw-v {
+            transform: scaleY(0);
+            transform-origin: top;
+            transition: transform 1s var(--ease-cinematic);
+        }
+        html.motion-ready .line-draw-v.is-revealed {
+            transform: scaleY(1);
+        }
+
+        /* Stagger Group delays */
+        .stagger-group > *:nth-child(1) { transition-delay: 0ms; }
+        .stagger-group > *:nth-child(2) { transition-delay: 80ms; }
+        .stagger-group > *:nth-child(3) { transition-delay: 160ms; }
+        .stagger-group > *:nth-child(4) { transition-delay: 240ms; }
+        .stagger-group > *:nth-child(5) { transition-delay: 320ms; }
+        .stagger-group > *:nth-child(6) { transition-delay: 400ms; }
+
+        /* Internal Parallax Container */
+        .parallax-container {
+            overflow: hidden;
+            position: relative;
+        }
+        .parallax-img {
+            will-change: transform;
+            transition: transform 0.1s linear;
+        }
+
+        /* Micro-interactions for buttons & links */
+        .btn-hover-arrow svg {
+            transition: transform 0.25s var(--ease-cinematic);
+        }
+        .btn-hover-arrow:hover svg, .btn-hover-arrow:active svg {
+            transform: translateX(4px);
+        }
+
+        .btn-fill-red {
+            position: relative;
+            z-index: 1;
+            overflow: hidden;
+        }
+        .btn-fill-red::before {
+            content: '';
+            position: absolute;
+            inset: 0;
+            background-color: #9F2332;
+            z-index: -1;
+            transform: scaleX(0);
+            transform-origin: left;
+            transition: transform 0.35s var(--ease-cinematic);
+        }
+        .btn-fill-red:hover::before {
+            transform: scaleX(1);
+        }
+
+        .btn-fill-gold {
+            position: relative;
+            z-index: 1;
+            overflow: hidden;
+            transition: color 0.3s var(--ease-cinematic);
+        }
+        .btn-fill-gold::before {
+            content: '';
+            position: absolute;
+            inset: 0;
+            background-color: #D7BB7D;
+            z-index: -1;
+            transform: scaleX(0);
+            transform-origin: left;
+            transition: transform 0.35s var(--ease-cinematic);
+        }
+        .btn-fill-gold:hover::before {
+            transform: scaleX(1);
+        }
+
+        .touch-compress {
+            transition: transform 0.12s var(--ease-cinematic);
+        }
+        .touch-compress:active {
+            transform: scale(0.98);
+        }
+
+        /* Modal Dialog Backdrops & Panels */
+        .dialog-backdrop {
+            background-color: rgba(66, 16, 23, 0.78);
+            backdrop-filter: blur(8px);
+            transition: opacity 0.25s var(--ease-cinematic);
+        }
+
+        .modal-panel {
+            opacity: 0;
+            transform: translateY(18px) scale(0.98);
+            transition: opacity 0.38s var(--ease-cinematic), transform 0.38s var(--ease-cinematic);
+        }
+        .dialog-backdrop.is-open .modal-panel {
+            opacity: 1;
+            transform: translateY(0) scale(1);
+        }
+
+        /* Hero Scroll Indicator Bounce */
+        @keyframes gentleBounce {
+            0%, 100% { transform: translateY(0); opacity: 0.8; }
+            50% { transform: translateY(5px); opacity: 1; }
+        }
+        .scroll-indicator-anim {
+            animation: gentleBounce 2.8s ease-in-out infinite;
+        }
+
+        /* Mobile Scroll Snap Utilities for Galleries/Materials */
+        .no-scrollbar::-webkit-scrollbar {
+            display: none;
+        }
+        .no-scrollbar {
+            -ms-overflow-style: none;
+            scrollbar-width: none;
+        }
+
+        /* Horizontal Tab Sliding Gold Line */
+        .tab-indicator {
+            position: absolute;
+            bottom: 0;
+            height: 2px;
+            background-color: #B48A48;
+            transition: left 0.35s var(--ease-cinematic), width 0.35s var(--ease-cinematic);
+        }
+
+        /* Gallery Card Transitions and Mobile Auto-Activation */
+        .gallery-card .gallery-img {
+            transition: transform 0.8s var(--ease-cinematic);
+        }
+        .gallery-card .gallery-overlay {
+            transition: background-color 0.6s var(--ease-cinematic), opacity 0.6s var(--ease-cinematic);
+        }
+        .gallery-card .gallery-btn {
+            transition: transform 0.5s var(--ease-cinematic), opacity 0.5s var(--ease-cinematic);
+        }
+        .gallery-card .gallery-bar {
+            transition: transform 0.6s var(--ease-cinematic);
+        }
+
+        @media (max-width: 767px) {
+            .gallery-card.is-card-active .gallery-overlay {
+                background-color: rgba(122, 28, 42, 0.65) !important;
+                opacity: 1 !important;
+            }
+            .gallery-card.is-card-active .gallery-btn {
+                transform: translateY(0) !important;
+                opacity: 1 !important;
+            }
+            .gallery-card.is-card-active .gallery-img {
+                transform: scale(1.05) !important;
+            }
+            .gallery-card.is-card-active .gallery-bar {
+                transform: scaleX(1) !important;
+            }
+            .gallery-card.is-card-active .gallery-title {
+                color: #9F2332 !important;
+            }
+        }
+
+        /* Reduced Motion Fallbacks */
+        @media (prefers-reduced-motion: reduce) {
+            *, ::before, ::after {
+                animation-duration: 0.01ms !important;
+                animation-iteration-count: 1 !important;
+                transition-duration: 0.01ms !important;
+                scroll-behavior: auto !important;
+            }
+            .reveal-up, .reveal-left, .reveal-right, .reveal-scale, .reveal-mask-vert, .reveal-mask-horiz {
+                opacity: 1 !important;
+                transform: none !important;
+                clip-path: none !important;
+            }
+            .mask-line-inner {
+                transform: none !important;
+            }
+            .line-draw-h, .line-draw-v {
+                transform: none !important;
+            }
+            #introSplash {
+                display: none !important;
+            }
+        }
+    </style>
+</head>
+<body class="bg-alva-white text-graphite antialiased flex flex-col min-h-screen">
+
+    <!-- 1. INITIAL ENTRANCE SPLASH (Jessica Roma Logo Reveal) -->
+    <div id="introSplash" aria-hidden="true" class="fixed inset-0 z-[100] bg-wine flex flex-col items-center justify-center pointer-events-none transition-opacity duration-700">
+        <div class="relative flex flex-col items-center px-6">
+            <!-- Subtle Ambient Radial Glow -->
+            <div class="absolute inset-0 -m-8 bg-radial from-matte-gold/15 via-transparent to-transparent pointer-events-none blur-xl opacity-70"></div>
+
+            <!-- Logo Image -->
+            <img id="splashLogoImg" src="https://res.cloudinary.com/lvl0nq3r/image/upload/v1787663687/jessica-roma-logo-dark-bg_slgoo2.webp" alt="Jéssica Roma Arquitetura" class="relative z-10 w-48 sm:w-60 md:w-72 max-w-[80vw] h-auto object-contain transition-all duration-1000 transform opacity-0 scale-95 translate-y-2" referrerpolicy="no-referrer">
+
+            <!-- Delicate Expanding Golden Accent Line -->
+            <div class="mt-5 relative w-32 md:w-44 h-[1px] bg-matte-gold/20 overflow-hidden">
+                <div id="splashLine" class="absolute inset-y-0 bg-gradient-to-r from-transparent via-matte-gold to-transparent w-full transition-all duration-1000 opacity-0 -translate-x-full"></div>
+            </div>
+        </div>
+    </div>
+
+    <!-- STICKY NAVIGATION HEADER -->
+    <header id="mainHeader" class="fixed top-0 left-0 w-full z-50 transition-all duration-500 py-6 px-6 md:px-12">
+        <div class="max-w-[1400px] mx-auto flex items-center justify-between relative">
+            
+            <!-- Left Navigation -->
+            <nav class="hidden md:flex items-center space-x-8 text-xs uppercase tracking-[0.2em] font-medium" aria-label="Navegação Principal">
+                <a href="#galeria" class="nav-link text-white hover:text-light-gold transition-colors duration-300 gold-underline">Projetos</a>
+                <a href="#estudio" class="nav-link text-white hover:text-light-gold transition-colors duration-300 gold-underline">Estúdio</a>
+                <a href="#materiais" class="nav-link text-white hover:text-light-gold transition-colors duration-300 gold-underline">Atmosferas</a>
+            </nav>
+
+            <!-- Mobile Menu Toggle Button -->
+            <button id="mobileMenuBtn" aria-label="Abrir menu de navegação" class="md:hidden text-white flex items-center justify-center focus:outline-none touch-compress min-h-[44px] min-w-[44px]">
+                <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M4 8h16M4 16h16"/>
+                </svg>
+            </button>
+
+            <!-- Center Logo -->
+            <a href="#" class="group flex flex-col items-center justify-center focus:outline-none touch-compress" aria-label="Jéssica Roma - Página inicial">
+                <div id="headerLogoBg" class="h-11 sm:h-12 md:h-14 px-2 py-1 flex items-center justify-center transition-all duration-300 group-hover:scale-105">
+                    <img src="https://res.cloudinary.com/lvl0nq3r/image/upload/v1787663687/jessica-roma-logo-dark-bg_slgoo2.webp" alt="Jéssica Roma Arquitetura" class="h-8 sm:h-9 md:h-11 w-auto max-w-[170px] sm:max-w-[200px] object-contain transition-transform duration-300 drop-shadow-sm" referrerpolicy="no-referrer">
+                </div>
+            </a>
+
+            <!-- Right Navigation & Action -->
+            <div class="hidden md:flex items-center space-x-6 text-xs uppercase tracking-[0.2em] font-medium">
+                <button onclick="toggleSearchModal()" class="nav-link text-white hover:text-light-gold transition-colors flex items-center gap-1.5 focus:outline-none gold-underline" aria-label="Buscar projetos">
+                    <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"/></svg>
+                    <span>Busca</span>
+                </button>
+                <a href="#contato" class="nav-link text-white hover:text-light-gold transition-colors gold-underline">Contato</a>
+                <button onclick="toggleContactModal()" class="btn-agendar px-5 py-2.5 border border-matte-gold text-warm-white bg-alva-red/80 hover:bg-alva-red hover:border-light-gold transition-all duration-300 rounded-none tracking-[0.18em] btn-fill-red touch-compress shadow-sm">
+                    Agendar conversa
+                </button>
+            </div>
+
+            <!-- Mobile Spacer to balance centered logo -->
+            <div class="md:hidden w-[44px] h-[44px] pointer-events-none" aria-hidden="true"></div>
+        </div>
+
+        <!-- Animated Gold Line across header on scroll -->
+        <div class="header-line"></div>
+
+        <!-- MOBILE DRAWER EDITORIAL MENU -->
+        <div id="mobileDrawerBackdrop" class="fixed inset-0 bg-wine/80 backdrop-blur-md z-50 transition-opacity duration-300 opacity-0 pointer-events-none md:hidden"></div>
+        <div id="mobileDrawerPanel" class="fixed top-0 right-0 bottom-0 w-full max-w-sm bg-wine z-50 flex flex-col justify-between p-8 text-warm-white transition-transform duration-300 transform translate-x-full md:hidden" role="dialog" aria-modal="true" aria-label="Menu principal">
+            <div class="flex justify-between items-center border-b border-matte-gold/30 pb-4">
+                <span class="font-serif text-xl tracking-[0.2em] text-light-gold font-medium">ATELIÊ ALVA</span>
+                <button id="closeDrawerBtn" aria-label="Fechar menu" class="text-warm-white p-2 focus:outline-none transition-transform duration-300 transform hover:rotate-45 touch-compress">
+                    <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M6 18L18 6M6 6l12 12"/></svg>
+                </button>
+            </div>
+            
+            <nav class="flex flex-col space-y-6 text-lg font-serif tracking-widest my-auto text-left stagger-group">
+                <a href="#galeria" onclick="closeMobileDrawer()" class="drawer-link hover:text-light-gold transition-colors py-2 border-b border-matte-gold/20 gold-underline">PROJETOS</a>
+                <a href="#viver" onclick="closeMobileDrawer()" class="drawer-link hover:text-light-gold transition-colors py-2 border-b border-matte-gold/20 gold-underline">ATMOSFERAS</a>
+                <a href="#estudio" onclick="closeMobileDrawer()" class="drawer-link hover:text-light-gold transition-colors py-2 border-b border-matte-gold/20 gold-underline">ESTÚDIO</a>
+                <a href="#processo" onclick="closeMobileDrawer()" class="drawer-link hover:text-light-gold transition-colors py-2 border-b border-matte-gold/20 gold-underline">PROCESSO</a>
+                <a href="#contato" onclick="closeMobileDrawer()" class="drawer-link hover:text-light-gold transition-colors py-2 border-b border-matte-gold/20 gold-underline">CONTATO</a>
+            </nav>
+
+            <div class="space-y-4 pt-4 border-t border-matte-gold/30">
+                <button onclick="closeMobileDrawer(); toggleContactModal()" class="w-full py-3.5 bg-alva-red text-warm-white border border-matte-gold font-sans text-xs tracking-widest uppercase btn-fill-gold touch-compress">
+                    Agendar conversa
+                </button>
+                <p class="text-[11px] text-center text-matte-gold tracking-widest uppercase font-light">São Paulo • Rio de Janeiro • Brasília</p>
+            </div>
+        </div>
+    </header>
+
+    <!-- 2. HERO CINEMATOGRÁFICO -->
+    <section id="heroSection" class="relative w-full h-[92vh] min-h-[700px] flex items-center justify-center overflow-hidden bg-wine">
+        <!-- Background Photography with Scale & Parallax -->
+        <div class="absolute inset-0 z-0 overflow-hidden bg-ivory">
+            <img src="https://images.unsplash.com/photo-1600585154340-be6161a56a0c?auto=format&fit=crop&w=2000&q=85" 
+                 alt="Sala de estar contemporânea integrada ao jardim com luz natural e marcenaria em madeira brasileira" 
+                 class="w-full h-full object-cover object-center transform scale-[1.06] transition-transform duration-[1600ms] ease-out parallax-img"
+                 id="heroBgImage"
+                 loading="eager"
+                 referrerpolicy="no-referrer">
+            <!-- Discreet Wine Overlay for Contrast -->
+            <div class="absolute inset-0 bg-gradient-to-t from-wine/90 via-wine/40 to-wine/30 mix-blend-multiply"></div>
+            <div class="absolute inset-0 bg-black/20"></div>
+        </div>
+
+        <!-- Central Content Overlay -->
+        <div id="heroContent" class="relative z-10 max-w-[1200px] mx-auto px-6 text-center text-warm-white flex flex-col items-center justify-center mt-12 transition-opacity duration-300">
+            <!-- Marker Tagline -->
+            <div class="reveal-up mb-4">
+                <span class="inline-block text-[11px] md:text-xs uppercase tracking-[0.35em] text-light-gold border-b border-matte-gold/50 pb-1 font-medium">
+                    ARQUITETURA RESIDENCIAL
+                </span>
+            </div>
+
+            <!-- Main Title with Vertical Mask Line-by-Line Reveal -->
+            <h1 class="font-serif text-4xl sm:text-6xl md:text-7xl lg:text-8xl font-light tracking-tight leading-[1.08] mb-6 text-warm-white max-w-4xl">
+                <span class="mask-line-container"><span class="mask-line-inner">NOVAS FORMAS</span></span>
+                <span class="mask-line-container"><span class="mask-line-inner">DE HABITAR</span></span>
+            </h1>
+
+            <!-- Subtitle Paragraph -->
+            <p class="reveal-up font-sans text-sm md:text-base tracking-wide text-ivory/90 max-w-xl font-light mb-8 leading-relaxed">
+                Casas desenhadas para acolher luz, natureza e histórias.
+            </p>
+
+            <!-- Action Button -->
+            <div class="reveal-up">
+                <a href="#galeria" class="inline-flex items-center space-x-3 border border-matte-gold px-8 py-3.5 text-xs tracking-[0.25em] uppercase text-warm-white hover:bg-alva-red hover:border-light-gold transition-all duration-300 shadow-lg group btn-hover-arrow touch-compress">
+                    <span>Conhecer projetos</span>
+                    <svg class="w-4 h-4 text-light-gold" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M17 8l4 4m0 0l-4 4m4-4H3"/></svg>
+                </a>
+            </div>
+        </div>
+
+        <!-- Scroll Indicator -->
+        <div class="absolute bottom-6 left-1/2 transform -translate-x-1/2 z-10 flex flex-col items-center opacity-85 hover:opacity-100 transition-opacity reveal-up">
+            <span class="text-[9px] uppercase tracking-[0.3em] text-light-gold mb-2 font-medium">Explorar</span>
+            <div class="w-px h-8 bg-gradient-to-b from-matte-gold to-transparent scroll-indicator-anim"></div>
+        </div>
+    </section>
+
+    <!-- 3. GALERIA COM ABAS (PORTFÓLIO) -->
+    <section id="galeria" class="py-24 px-6 md:px-12 bg-alva-white w-full border-b border-ivory">
+        <div class="max-w-[1400px] mx-auto">
+            
+            <!-- Section Header -->
+            <div class="flex flex-col md:flex-row md:items-end justify-between mb-12 gap-6 reveal-up">
+                <div>
+                    <span class="text-xs uppercase tracking-[0.3em] text-alva-red font-semibold block mb-2">Coleção de Projetos</span>
+                    <h2 class="font-serif text-3xl md:text-5xl text-graphite font-light tracking-tight">Atmosferas Autorais</h2>
+                </div>
+
+                <!-- Functional Tab Buttons -->
+                <div class="relative flex items-center space-x-6 border-b border-ivory pb-2" role="tablist" aria-label="Categorias de projetos" id="tabListNav">
+                    <button onclick="switchTab('residencias')" id="tab-residencias" role="tab" aria-selected="true" class="tab-btn font-serif text-lg md:text-xl text-alva-red font-medium pb-1 transition-colors focus:outline-none touch-compress">
+                        Residências
+                    </button>
+                    <button onclick="switchTab('interiores')" id="tab-interiores" role="tab" aria-selected="false" class="tab-btn font-serif text-lg md:text-xl text-warm-gray hover:text-graphite pb-1 transition-colors focus:outline-none touch-compress">
+                        Interiores
+                    </button>
+                    <button onclick="switchTab('exteriores')" id="tab-exteriores" role="tab" aria-selected="false" class="tab-btn font-serif text-lg md:text-xl text-warm-gray hover:text-graphite pb-1 transition-colors focus:outline-none touch-compress">
+                        Exteriores
+                    </button>
+                    <div id="tabIndicator" class="tab-indicator"></div>
+                </div>
+            </div>
+
+            <!-- Tab 1 Content: Residências -->
+            <div id="content-residencias" class="tab-content transition-all duration-300">
+                <!-- Mobile Horizontal Scroll Container & Desktop Grid -->
+                <div class="grid grid-cols-1 md:grid-cols-3 gap-8 md:gap-8 flex md:grid overflow-x-auto no-scrollbar snap-x snap-mandatory pb-4 md:pb-0">
+                    <!-- Card 1 -->
+                    <div class="gallery-card snap-center min-w-[85vw] sm:min-w-[60vw] md:min-w-0 group relative bg-warm-white overflow-hidden cursor-pointer border-b border-ivory transition-all duration-500 touch-compress" onclick="openProjectModal('Casa Mata', 'Nova Lima, MG', '2025', '680 m²', 'https://images.unsplash.com/photo-1600596542815-ffad4c1539a9?auto=format&fit=crop&w=1200&q=85', 'Inserida na Mata Atlântica, a Casa Mata harmoniza concreto aparente, brises de madeira cumaru e lâminas d’água que refletem a copa das árvores.')">
+                        <div class="aspect-[3/4] overflow-hidden relative bg-ivory">
+                            <img src="https://images.unsplash.com/photo-1600596542815-ffad4c1539a9?auto=format&fit=crop&w=1200&q=85" alt="Casa Mata em Nova Lima" class="gallery-img w-full h-full object-cover transition-transform duration-700 md:group-hover:scale-105" loading="lazy" decoding="async" referrerpolicy="no-referrer">
+                            <div class="gallery-overlay absolute inset-0 bg-wine/0 md:group-hover:bg-wine/60 transition-all duration-500 flex items-center justify-center p-6 text-center opacity-0 md:group-hover:opacity-100">
+                                <span class="gallery-btn text-xs uppercase tracking-[0.25em] text-light-gold border border-matte-gold px-4 py-2 bg-wine/80 transform translate-y-2 md:group-hover:translate-y-0 transition-all duration-300 shadow-lg">Explorar projeto</span>
+                            </div>
+                        </div>
+                        <div class="p-6 flex justify-between items-baseline">
+                            <div>
+                                <h3 class="gallery-title font-serif text-2xl text-graphite group-hover:text-alva-red transition-colors duration-300">Casa Mata</h3>
+                                <p class="text-xs text-warm-gray tracking-wider uppercase mt-1">Nova Lima, MG</p>
+                            </div>
+                            <span class="font-serif text-sm text-matte-gold">2025</span>
+                        </div>
+                        <div class="gallery-bar h-0.5 bg-matte-gold transform scale-x-0 md:group-hover:scale-x-100 transition-transform duration-500 origin-left"></div>
+                    </div>
+
+                    <!-- Card 2 -->
+                    <div class="gallery-card snap-center min-w-[85vw] sm:min-w-[60vw] md:min-w-0 group relative bg-warm-white overflow-hidden cursor-pointer border-b border-ivory transition-all duration-500 touch-compress" onclick="openProjectModal('Casa Pátio', 'Brasília, DF', '2024', '540 m²', 'https://images.unsplash.com/photo-1600607687939-ce8a6c25118c?auto=format&fit=crop&w=1200&q=85', 'Organizada em torno de um pátio central verde, a residência utiliza luz zenital e cobogós de cerâmica para criar jogos dramáticos de sombra.')">
+                        <div class="aspect-[3/4] overflow-hidden relative bg-ivory">
+                            <img src="https://images.unsplash.com/photo-1600607687939-ce8a6c25118c?auto=format&fit=crop&w=1200&q=85" alt="Casa Pátio em Brasília" class="gallery-img w-full h-full object-cover transition-transform duration-700 md:group-hover:scale-105" loading="lazy" decoding="async" referrerpolicy="no-referrer">
+                            <div class="gallery-overlay absolute inset-0 bg-wine/0 md:group-hover:bg-wine/60 transition-all duration-500 flex items-center justify-center p-6 text-center opacity-0 md:group-hover:opacity-100">
+                                <span class="gallery-btn text-xs uppercase tracking-[0.25em] text-light-gold border border-matte-gold px-4 py-2 bg-wine/80 transform translate-y-2 md:group-hover:translate-y-0 transition-all duration-300 shadow-lg">Explorar projeto</span>
+                            </div>
+                        </div>
+                        <div class="p-6 flex justify-between items-baseline">
+                            <div>
+                                <h3 class="gallery-title font-serif text-2xl text-graphite group-hover:text-alva-red transition-colors duration-300">Casa Pátio</h3>
+                                <p class="text-xs text-warm-gray tracking-wider uppercase mt-1">Brasília, DF</p>
+                            </div>
+                            <span class="font-serif text-sm text-matte-gold">2024</span>
+                        </div>
+                        <div class="gallery-bar h-0.5 bg-matte-gold transform scale-x-0 md:group-hover:scale-x-100 transition-transform duration-500 origin-left"></div>
+                    </div>
+
+                    <!-- Card 3 -->
+                    <div class="gallery-card snap-center min-w-[85vw] sm:min-w-[60vw] md:min-w-0 group relative bg-warm-white overflow-hidden cursor-pointer border-b border-ivory transition-all duration-500 touch-compress" onclick="openProjectModal('Casa Brisa', 'Trancoso, BA', '2024', '420 m²', 'https://images.unsplash.com/photo-1512917774080-9991f1c4c750?auto=format&fit=crop&w=1200&q=85', 'Refúgio praiano com pé-direito duplo, estrutura em madeira reflorestada e varandas fluidas totalmente abertas para a brisa do Atlântico.')">
+                        <div class="aspect-[3/4] overflow-hidden relative bg-ivory">
+                            <img src="https://images.unsplash.com/photo-1512917774080-9991f1c4c750?auto=format&fit=crop&w=1200&q=85" alt="Casa Brisa em Trancoso" class="gallery-img w-full h-full object-cover transition-transform duration-700 md:group-hover:scale-105" loading="lazy" decoding="async" referrerpolicy="no-referrer">
+                            <div class="gallery-overlay absolute inset-0 bg-wine/0 md:group-hover:bg-wine/60 transition-all duration-500 flex items-center justify-center p-6 text-center opacity-0 md:group-hover:opacity-100">
+                                <span class="gallery-btn text-xs uppercase tracking-[0.25em] text-light-gold border border-matte-gold px-4 py-2 bg-wine/80 transform translate-y-2 md:group-hover:translate-y-0 transition-all duration-300 shadow-lg">Explorar projeto</span>
+                            </div>
+                        </div>
+                        <div class="p-6 flex justify-between items-baseline">
+                            <div>
+                                <h3 class="gallery-title font-serif text-2xl text-graphite group-hover:text-alva-red transition-colors duration-300">Casa Brisa</h3>
+                                <p class="text-xs text-warm-gray tracking-wider uppercase mt-1">Trancoso, BA</p>
+                            </div>
+                            <span class="font-serif text-sm text-matte-gold">2024</span>
+                        </div>
+                        <div class="gallery-bar h-0.5 bg-matte-gold transform scale-x-0 md:group-hover:scale-x-100 transition-transform duration-500 origin-left"></div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Tab 2 Content: Interiores (Hidden by default) -->
+            <div id="content-interiores" class="tab-content transition-all duration-300 hidden">
+                <div class="grid grid-cols-1 md:grid-cols-3 gap-8 md:gap-8 flex md:grid overflow-x-auto no-scrollbar snap-x snap-mandatory pb-4 md:pb-0">
+                    <div class="gallery-card snap-center min-w-[85vw] sm:min-w-[60vw] md:min-w-0 group relative bg-warm-white overflow-hidden cursor-pointer border-b border-ivory transition-all duration-500 touch-compress" onclick="openProjectModal('Apartamento Terra', 'São Paulo, SP', '2025', '310 m²', 'https://images.unsplash.com/photo-1618221195710-dd6b41faaea6?auto=format&fit=crop&w=1200&q=85', 'Projeto de interiores focado no resgate do design brasileiro autoral, mármore freijó e tecidos naturais em linho cru.')">
+                        <div class="aspect-[3/4] overflow-hidden relative bg-ivory">
+                            <img src="https://images.unsplash.com/photo-1618221195710-dd6b41faaea6?auto=format&fit=crop&w=1200&q=85" alt="Apartamento Terra" class="gallery-img w-full h-full object-cover transition-transform duration-700 md:group-hover:scale-105" loading="lazy" decoding="async" referrerpolicy="no-referrer">
+                            <div class="gallery-overlay absolute inset-0 bg-wine/0 md:group-hover:bg-wine/60 transition-all duration-500 flex items-center justify-center p-6 text-center opacity-0 md:group-hover:opacity-100">
+                                <span class="gallery-btn text-xs uppercase tracking-[0.25em] text-light-gold border border-matte-gold px-4 py-2 bg-wine/80 transform translate-y-2 md:group-hover:translate-y-0 transition-all duration-300 shadow-lg">Explorar projeto</span>
+                            </div>
+                        </div>
+                        <div class="p-6 flex justify-between items-baseline">
+                            <div>
+                                <h3 class="gallery-title font-serif text-2xl text-graphite group-hover:text-alva-red transition-colors duration-300">Apartamento Terra</h3>
+                                <p class="text-xs text-warm-gray tracking-wider uppercase mt-1">São Paulo, SP</p>
+                            </div>
+                            <span class="font-serif text-sm text-matte-gold">2025</span>
+                        </div>
+                        <div class="gallery-bar h-0.5 bg-matte-gold transform scale-x-0 md:group-hover:scale-x-100 transition-transform duration-500 origin-left"></div>
+                    </div>
+
+                    <div class="gallery-card snap-center min-w-[85vw] sm:min-w-[60vw] md:min-w-0 group relative bg-warm-white overflow-hidden cursor-pointer border-b border-ivory transition-all duration-500 touch-compress" onclick="openProjectModal('Loft Luz', 'Curitiba, PR', '2024', '190 m²', 'https://images.unsplash.com/photo-1616486338812-3dadae4b4ace?auto=format&fit=crop&w=1200&q=85', 'Integração total de ambientes sociais com marcenaria minimalista contínua e iluminação cênica indireta.')">
+                        <div class="aspect-[3/4] overflow-hidden relative bg-ivory">
+                            <img src="https://images.unsplash.com/photo-1616486338812-3dadae4b4ace?auto=format&fit=crop&w=1200&q=85" alt="Loft Luz" class="gallery-img w-full h-full object-cover transition-transform duration-700 md:group-hover:scale-105" loading="lazy" decoding="async" referrerpolicy="no-referrer">
+                            <div class="gallery-overlay absolute inset-0 bg-wine/0 md:group-hover:bg-wine/60 transition-all duration-500 flex items-center justify-center p-6 text-center opacity-0 md:group-hover:opacity-100">
+                                <span class="gallery-btn text-xs uppercase tracking-[0.25em] text-light-gold border border-matte-gold px-4 py-2 bg-wine/80 transform translate-y-2 md:group-hover:translate-y-0 transition-all duration-300 shadow-lg">Explorar projeto</span>
+                            </div>
+                        </div>
+                        <div class="p-6 flex justify-between items-baseline">
+                            <div>
+                                <h3 class="gallery-title font-serif text-2xl text-graphite group-hover:text-alva-red transition-colors duration-300">Loft Luz</h3>
+                                <p class="text-xs text-warm-gray tracking-wider uppercase mt-1">Curitiba, PR</p>
+                            </div>
+                            <span class="font-serif text-sm text-matte-gold">2024</span>
+                        </div>
+                        <div class="gallery-bar h-0.5 bg-matte-gold transform scale-x-0 md:group-hover:scale-x-100 transition-transform duration-500 origin-left"></div>
+                    </div>
+
+                    <div class="gallery-card snap-center min-w-[85vw] sm:min-w-[60vw] md:min-w-0 group relative bg-warm-white overflow-hidden cursor-pointer border-b border-ivory transition-all duration-500 touch-compress" onclick="openProjectModal('Refúgio Sereno', 'Gramado, RS', '2023', '280 m²', 'https://images.unsplash.com/photo-1600210492486-724fe5c67fb0?auto=format&fit=crop&w=1200&q=85', 'Design de interiores acolhedor combinando pedra natural aquecida, lareira minimalista e textura de madeira de demolição.')">
+                        <div class="aspect-[3/4] overflow-hidden relative bg-ivory">
+                            <img src="https://images.unsplash.com/photo-1600210492486-724fe5c67fb0?auto=format&fit=crop&w=1200&q=85" alt="Refúgio Sereno" class="gallery-img w-full h-full object-cover transition-transform duration-700 md:group-hover:scale-105" loading="lazy" decoding="async" referrerpolicy="no-referrer">
+                            <div class="gallery-overlay absolute inset-0 bg-wine/0 md:group-hover:bg-wine/60 transition-all duration-500 flex items-center justify-center p-6 text-center opacity-0 md:group-hover:opacity-100">
+                                <span class="gallery-btn text-xs uppercase tracking-[0.25em] text-light-gold border border-matte-gold px-4 py-2 bg-wine/80 transform translate-y-2 md:group-hover:translate-y-0 transition-all duration-300 shadow-lg">Explorar projeto</span>
+                            </div>
+                        </div>
+                        <div class="p-6 flex justify-between items-baseline">
+                            <div>
+                                <h3 class="gallery-title font-serif text-2xl text-graphite group-hover:text-alva-red transition-colors duration-300">Refúgio Sereno</h3>
+                                <p class="text-xs text-warm-gray tracking-wider uppercase mt-1">Gramado, RS</p>
+                            </div>
+                            <span class="font-serif text-sm text-matte-gold">2023</span>
+                        </div>
+                        <div class="gallery-bar h-0.5 bg-matte-gold transform scale-x-0 md:group-hover:scale-x-100 transition-transform duration-500 origin-left"></div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Tab 3 Content: Exteriores (Hidden by default) -->
+            <div id="content-exteriores" class="tab-content transition-all duration-300 hidden">
+                <div class="grid grid-cols-1 md:grid-cols-3 gap-8 md:gap-8 flex md:grid overflow-x-auto no-scrollbar snap-x snap-mandatory pb-4 md:pb-0">
+                    <div class="gallery-card snap-center min-w-[85vw] sm:min-w-[60vw] md:min-w-0 group relative bg-warm-white overflow-hidden cursor-pointer border-b border-ivory transition-all duration-500 touch-compress" onclick="openProjectModal('Piscina & Pátio Vale', 'Belo Horizonte, MG', '2025', '400 m²', 'https://images.unsplash.com/photo-1576013551627-0cc20b96c2a7?auto=format&fit=crop&w=1200&q=85', 'Deck em cumaru suspenso sobre espelho d’água e paisagismo nativo integrando a piscina de pedra Hijau ao horizonte.')">
+                        <div class="aspect-[3/4] overflow-hidden relative bg-ivory">
+                            <img src="https://images.unsplash.com/photo-1576013551627-0cc20b96c2a7?auto=format&fit=crop&w=1200&q=85" alt="Piscina & Pátio Vale" class="gallery-img w-full h-full object-cover transition-transform duration-700 md:group-hover:scale-105" loading="lazy" decoding="async" referrerpolicy="no-referrer">
+                            <div class="gallery-overlay absolute inset-0 bg-wine/0 md:group-hover:bg-wine/60 transition-all duration-500 flex items-center justify-center p-6 text-center opacity-0 md:group-hover:opacity-100">
+                                <span class="gallery-btn text-xs uppercase tracking-[0.25em] text-light-gold border border-matte-gold px-4 py-2 bg-wine/80 transform translate-y-2 md:group-hover:translate-y-0 transition-all duration-300 shadow-lg">Explorar projeto</span>
+                            </div>
+                        </div>
+                        <div class="p-6 flex justify-between items-baseline">
+                            <div>
+                                <h3 class="gallery-title font-serif text-2xl text-graphite group-hover:text-alva-red transition-colors duration-300">Piscina & Pátio Vale</h3>
+                                <p class="text-xs text-warm-gray tracking-wider uppercase mt-1">Belo Horizonte, MG</p>
+                            </div>
+                            <span class="font-serif text-sm text-matte-gold">2025</span>
+                        </div>
+                        <div class="gallery-bar h-0.5 bg-matte-gold transform scale-x-0 md:group-hover:scale-x-100 transition-transform duration-500 origin-left"></div>
+                    </div>
+
+                    <div class="gallery-card snap-center min-w-[85vw] sm:min-w-[60vw] md:min-w-0 group relative bg-warm-white overflow-hidden cursor-pointer border-b border-ivory transition-all duration-500 touch-compress" onclick="openProjectModal('Jardim Secreto', 'Campinas, SP', '2024', '350 m²', 'https://images.unsplash.com/photo-1584622650111-993a426fbf0a?auto=format&fit=crop&w=1200&q=85', 'Paisagismo tropical denso dialogando com pergolado de aço corten e percursos em pisadas de pedra rústica.')">
+                        <div class="aspect-[3/4] overflow-hidden relative bg-ivory">
+                            <img src="https://images.unsplash.com/photo-1584622650111-993a426fbf0a?auto=format&fit=crop&w=1200&q=85" alt="Jardim Secreto" class="gallery-img w-full h-full object-cover transition-transform duration-700 md:group-hover:scale-105" loading="lazy" decoding="async" referrerpolicy="no-referrer">
+                            <div class="gallery-overlay absolute inset-0 bg-wine/0 md:group-hover:bg-wine/60 transition-all duration-500 flex items-center justify-center p-6 text-center opacity-0 md:group-hover:opacity-100">
+                                <span class="gallery-btn text-xs uppercase tracking-[0.25em] text-light-gold border border-matte-gold px-4 py-2 bg-wine/80 transform translate-y-2 md:group-hover:translate-y-0 transition-all duration-300 shadow-lg">Explorar projeto</span>
+                            </div>
+                        </div>
+                        <div class="p-6 flex justify-between items-baseline">
+                            <div>
+                                <h3 class="gallery-title font-serif text-2xl text-graphite group-hover:text-alva-red transition-colors duration-300">Jardim Secreto</h3>
+                                <p class="text-xs text-warm-gray tracking-wider uppercase mt-1">Campinas, SP</p>
+                            </div>
+                            <span class="font-serif text-sm text-matte-gold">2024</span>
+                        </div>
+                        <div class="gallery-bar h-0.5 bg-matte-gold transform scale-x-0 md:group-hover:scale-x-100 transition-transform duration-500 origin-left"></div>
+                    </div>
+
+                    <div class="gallery-card snap-center min-w-[85vw] sm:min-w-[60vw] md:min-w-0 group relative bg-warm-white overflow-hidden cursor-pointer border-b border-ivory transition-all duration-500 touch-compress" onclick="openProjectModal('Varanda Solarium', 'Angra dos Reis, RJ', '2023', '260 m²', 'https://images.unsplash.com/photo-1512915922686-57c11dde9b6b?auto=format&fit=crop&w=1200&q=85', 'Área gourmet e solarium integrados à baía com pérgola de brises orientáveis e iluminação suave noturna.')">
+                        <div class="aspect-[3/4] overflow-hidden relative bg-ivory">
+                            <img src="https://images.unsplash.com/photo-1512915922686-57c11dde9b6b?auto=format&fit=crop&w=1200&q=85" alt="Varanda Solarium" class="gallery-img w-full h-full object-cover transition-transform duration-700 md:group-hover:scale-105" loading="lazy" decoding="async" referrerpolicy="no-referrer">
+                            <div class="gallery-overlay absolute inset-0 bg-wine/0 md:group-hover:bg-wine/60 transition-all duration-500 flex items-center justify-center p-6 text-center opacity-0 md:group-hover:opacity-100">
+                                <span class="gallery-btn text-xs uppercase tracking-[0.25em] text-light-gold border border-matte-gold px-4 py-2 bg-wine/80 transform translate-y-2 md:group-hover:translate-y-0 transition-all duration-300 shadow-lg">Explorar projeto</span>
+                            </div>
+                        </div>
+                        <div class="p-6 flex justify-between items-baseline">
+                            <div>
+                                <h3 class="gallery-title font-serif text-2xl text-graphite group-hover:text-alva-red transition-colors duration-300">Varanda Solarium</h3>
+                                <p class="text-xs text-warm-gray tracking-wider uppercase mt-1">Angra dos Reis, RJ</p>
+                            </div>
+                            <span class="font-serif text-sm text-matte-gold">2023</span>
+                        </div>
+                        <div class="gallery-bar h-0.5 bg-matte-gold transform scale-x-0 md:group-hover:scale-x-100 transition-transform duration-500 origin-left"></div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Bottom Link -->
+            <div class="mt-12 text-center reveal-up">
+                <button onclick="toggleSearchModal()" class="inline-flex items-center space-x-2 font-serif text-xl text-alva-red hover:text-wine transition-colors group btn-hover-arrow touch-compress">
+                    <span class="gold-underline font-light">Ver acervo completo do ateliê</span>
+                    <svg class="w-5 h-5 text-alva-red" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M17 8l4 4m0 0l-4 4m4-4H3"/></svg>
+                </button>
+            </div>
+        </div>
+    </section>
+
+    <!-- 4. SEÇÃO "VIVER" -->
+    <section id="viver" class="py-20 px-6 md:px-12 bg-warm-white w-full">
+        <div class="max-w-[1400px] mx-auto grid grid-cols-1 lg:grid-cols-12 gap-12 items-center">
+            
+            <!-- Left: Large Ambient Photography Panel with Mask Reveal -->
+            <div class="lg:col-span-7 relative group overflow-hidden bg-ivory reveal-mask-horiz parallax-container">
+                <div class="aspect-[4/3] relative overflow-hidden">
+                    <img src="https://images.unsplash.com/photo-1600210492486-724fe5c67fb0?auto=format&fit=crop&w=1400&q=80" alt="Sala de estar ampla integrada ao jardim externo" class="w-full h-full object-cover transition-transform duration-1000 md:group-hover:scale-102 parallax-img" loading="lazy" decoding="async" referrerpolicy="no-referrer">
+                    <div class="absolute inset-0 bg-gradient-to-t from-wine/80 via-transparent to-transparent hidden md:block"></div>
+                    
+                    <div class="absolute bottom-8 left-8 right-8 text-warm-white hidden md:block">
+                        <span class="text-[10px] uppercase tracking-[0.3em] text-light-gold block mb-2 font-medium">Capítulo 01</span>
+                        <h3 class="font-serif text-4xl md:text-5xl font-light mb-3 transform transition-transform duration-500 group-hover:-translate-y-1">Viver</h3>
+                        <p class="font-sans text-xs md:text-sm text-ivory/90 max-w-md font-light mb-6 leading-relaxed">
+                            Espaços que aproximam rotina, conforto e paisagem.
+                        </p>
+                        <a href="#galeria" onclick="switchTab('interiores')" class="inline-block text-xs uppercase tracking-[0.2em] border-b border-matte-gold text-light-gold pb-1 hover:text-warm-white transition-colors gold-underline">
+                            Explorar interiores →
+                        </a>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Right: White Editorial Magazine Panels with Mobile Highlighting -->
+            <div class="lg:col-span-5 flex flex-col space-y-8 stagger-group">
+                
+                <!-- Editorial Panel 1 -->
+                <div class="editorial-panel reveal-right bg-alva-white p-8 border border-ivory hover:border-matte-gold transition-all duration-500 flex items-center space-x-6 group shadow-sm hover:shadow-md">
+                    <div class="w-20 h-20 md:w-24 md:h-24 flex-shrink-0 bg-warm-white border border-matte-gold/40 flex items-center justify-center p-4 text-matte-gold group-hover:bg-alva-red group-hover:border-alva-red group-hover:text-warm-white transition-all duration-500 rounded-sm relative overflow-hidden">
+                        <svg class="w-9 h-9 stroke-[1.25] transition-transform duration-500 group-hover:scale-110 group-hover:rotate-12" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M12 3v2m0 14v2m9-9h-2M5 12H3m15.364-6.364l-1.414 1.414M7.05 16.95l-1.414 1.414M18.364 18.364l-1.414-1.414M7.05 7.05L5.636 5.636M12 8a4 4 0 100 8 4 4 0 000-8z"/></svg>
+                    </div>
+                    <div class="relative">
+                        <span class="text-[10px] uppercase tracking-[0.25em] text-matte-gold font-semibold block mb-1">01 — Filosofia</span>
+                        <h4 class="font-serif text-2xl text-graphite mb-2 group-hover:text-alva-red transition-colors">Luz</h4>
+                        <p class="text-xs text-warm-gray leading-relaxed font-light">
+                            Iluminação natural desenhada como elemento estrutural, projetando sombras dinâmicas ao longo do dia.
+                        </p>
+                        <div class="panel-gold-line absolute -bottom-2 left-0 w-full h-[1px] bg-matte-gold transform scale-x-0 transition-transform duration-500 origin-left"></div>
+                    </div>
+                </div>
+
+                <!-- Editorial Panel 2 -->
+                <div class="editorial-panel reveal-right bg-alva-white p-8 border border-ivory hover:border-matte-gold transition-all duration-500 flex items-center space-x-6 group shadow-sm hover:shadow-md">
+                    <div class="w-20 h-20 md:w-24 md:h-24 flex-shrink-0 bg-warm-white border border-matte-gold/40 flex items-center justify-center p-4 text-matte-gold group-hover:bg-alva-red group-hover:border-alva-red group-hover:text-warm-white transition-all duration-500 rounded-sm relative overflow-hidden">
+                        <svg class="w-9 h-9 stroke-[1.25] transition-transform duration-500 group-hover:scale-110" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M12 2L2 7l10 5 10-5-10-5zM2 17l10 5 10-5M2 12l10 5 10-5"/></svg>
+                    </div>
+                    <div class="relative">
+                        <span class="text-[10px] uppercase tracking-[0.25em] text-matte-gold font-semibold block mb-1">02 — Sensorial</span>
+                        <h4 class="font-serif text-2xl text-graphite mb-2 group-hover:text-alva-red transition-colors">Matéria</h4>
+                        <p class="text-xs text-warm-gray leading-relaxed font-light">
+                            Texturas táteis escolhidas para envelhecer com nobreza: madeira maciça, pedras brutas e linho denso.
+                        </p>
+                        <div class="panel-gold-line absolute -bottom-2 left-0 w-full h-[1px] bg-matte-gold transform scale-x-0 transition-transform duration-500 origin-left"></div>
+                    </div>
+                </div>
+
+            </div>
+
+        </div>
+    </section>
+
+    <!-- 5. SEÇÃO "COZINHAR E ENCONTRAR" -->
+    <section class="py-24 px-6 md:px-12 bg-alva-white w-full border-t border-ivory overflow-hidden">
+        <div class="max-w-[1400px] mx-auto grid grid-cols-1 lg:grid-cols-12 gap-12 items-center">
+            
+            <!-- Left: Text & Editorial Cutouts -->
+            <div class="lg:col-span-5 order-2 lg:order-1 flex flex-col justify-center">
+                <span class="reveal-up text-xs uppercase tracking-[0.3em] text-alva-red font-semibold block mb-3">Convivência Autêntica</span>
+                
+                <h2 class="font-serif text-4xl md:text-6xl text-graphite font-light leading-tight mb-6">
+                    <span class="mask-line-container"><span class="mask-line-inner">Cozinhar</span></span>
+                    <span class="mask-line-container"><span class="mask-line-inner">e encontrar</span></span>
+                </h2>
+                
+                <p class="reveal-up text-sm text-warm-gray leading-relaxed font-light mb-10 max-w-md">
+                    Ambientes pensados para os encontros cotidianos, onde a preparação do alimento se integra à conversa e à paisagem exterior.
+                </p>
+
+                <!-- Editorial Material Callouts with Stagger -->
+                <div class="space-y-6 border-l-2 border-alva-red/20 pl-6 stagger-group">
+                    <div class="reveal-up flex items-center space-x-4">
+                        <span class="font-serif text-xl text-matte-gold font-semibold">01</span>
+                        <div>
+                            <h4 class="text-xs uppercase tracking-[0.2em] text-graphite font-semibold">Pedra Quartzito Escovada</h4>
+                            <p class="text-xs text-warm-gray">Bancada central resistente a altas temperaturas com acabamento aveludado.</p>
+                        </div>
+                    </div>
+                    <div class="reveal-up flex items-center space-x-4">
+                        <span class="font-serif text-xl text-matte-gold font-semibold">02</span>
+                        <div>
+                            <h4 class="text-xs uppercase tracking-[0.2em] text-graphite font-semibold">Marcenaria em Pau-Ferro</h4>
+                            <p class="text-xs text-warm-gray">Painéis ocultos com portas camarão e gaveteiros em acionamento sutil.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Right: Wide Kitchen Photography with Mask Right-to-Left -->
+            <div class="lg:col-span-7 order-1 lg:order-2 reveal-mask-vert parallax-container">
+                <div class="aspect-[16/10] relative overflow-hidden shadow-xl bg-ivory">
+                    <img src="https://images.unsplash.com/photo-1556911220-e15b29be8c8f?auto=format&fit=crop&w=1600&q=80" alt="Cozinha integrada contemporânea com ilha em pedra e marcenaria em madeira" class="w-full h-full object-cover parallax-img" loading="lazy" decoding="async" referrerpolicy="no-referrer">
+                    <div class="absolute inset-0 bg-gradient-to-r from-wine/20 via-transparent to-transparent"></div>
+                </div>
+            </div>
+
+        </div>
+    </section>
+
+    <!-- 6. SEÇÃO PANORÂMICA EXTERNA ("ABRIR PARA A PAISAGEM") -->
+    <section class="relative w-full py-32 px-6 md:px-12 bg-wine text-warm-white overflow-hidden flex items-center justify-center">
+        <!-- Background Image with Zoom Reveal -->
+        <div class="absolute inset-0 z-0 overflow-hidden bg-ivory">
+            <img src="https://images.unsplash.com/photo-1600585152220-90363fe7e115?auto=format&fit=crop&w=2000&q=85" alt="Varanda e área externa com piscina integrada ao jardim tropical" class="w-full h-full object-cover object-center transform scale-[1.04] transition-transform duration-[2000ms] ease-out reveal-scale parallax-img" loading="lazy" decoding="async" referrerpolicy="no-referrer">
+            <div class="absolute inset-0 bg-wine/75 mix-blend-multiply"></div>
+            <div class="absolute inset-0 bg-black/30"></div>
+        </div>
+
+        <!-- Content overlay -->
+        <div class="relative z-10 max-w-[900px] mx-auto text-center">
+            <span class="reveal-up text-xs uppercase tracking-[0.35em] text-light-gold block mb-4 font-medium">Integração Externa</span>
+            <h2 class="font-serif text-4xl sm:text-6xl md:text-7xl font-light tracking-tight mb-6 leading-tight">
+                <span class="mask-line-container"><span class="mask-line-inner">ABRIR A CASA</span></span>
+                <span class="mask-line-container"><span class="mask-line-inner">PARA A PAISAGEM</span></span>
+            </h2>
+            <p class="reveal-up font-sans text-sm md:text-base text-ivory/90 max-w-xl mx-auto font-light mb-10 leading-relaxed">
+                Arquitetura que deixa o clima, a luz e a vegetação nativa participarem ativamente do viver diário.
+            </p>
+            <div class="reveal-up">
+                <button onclick="switchTab('exteriores'); location.href='#galeria';" class="btn-hover-arrow px-8 py-3.5 bg-alva-white text-wine font-sans text-xs uppercase tracking-[0.25em] font-semibold hover:bg-light-gold hover:text-wine transition-all shadow-lg inline-flex items-center space-x-3 touch-compress">
+                    <span>Ver áreas externas</span>
+                    <svg class="w-4 h-4 text-wine" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M17 8l4 4m0 0l-4 4m4-4H3"/></svg>
+                </button>
+            </div>
+        </div>
+    </section>
+
+    <!-- 7. CURATORIA DE MATERIAIS -->
+    <section id="materiais" class="py-24 px-6 md:px-12 bg-warm-white w-full border-b border-ivory">
+        <div class="max-w-[1400px] mx-auto">
+            
+            <div class="text-center max-w-2xl mx-auto mb-16 reveal-up">
+                <span class="text-xs uppercase tracking-[0.3em] text-alva-red font-semibold block mb-2">Matéria-Prima Autêntica</span>
+                <h2 class="font-serif text-3xl md:text-5xl text-graphite font-light tracking-tight">UMA PALETA PARA CADA CASA</h2>
+                <p class="text-xs md:text-sm text-warm-gray mt-4 font-light">Composição física de texturas nobres selecionadas para harmonizar com a luz tropical brasileira.</p>
+            </div>
+
+            <!-- Material Board Grid / Mobile Vertical Stack -->
+            <div id="materialsTrack" class="grid grid-cols-1 md:grid-cols-3 lg:grid-cols-6 gap-6 stagger-group">
+                
+                <!-- Material 1 -->
+                <div class="material-card reveal-up group bg-alva-white p-5 md:p-4 border border-ivory hover:border-matte-gold transition-all duration-300 relative shadow-sm w-full">
+                    <div class="aspect-[16/9] md:aspect-square overflow-hidden mb-4 bg-warm-white">
+                        <img src="https://images.unsplash.com/photo-1546484475-7f7bd55792da?auto=format&fit=crop&w=500&q=80" alt="Madeira Cumaru" class="w-full h-full object-cover group-hover:scale-106 transition-transform duration-500" loading="lazy" decoding="async" referrerpolicy="no-referrer">
+                    </div>
+                    <span class="font-serif text-lg text-matte-gold font-medium block">01</span>
+                    <h3 class="text-xs uppercase tracking-wider text-graphite font-semibold mt-1">Madeira Cumaru</h3>
+                    <span class="text-[11px] text-warm-gray italic font-serif mt-0.5 block group-hover:translate-x-1 transition-transform">calor</span>
+                    <div class="absolute bottom-0 left-0 w-full h-[2px] bg-matte-gold transform scale-x-0 group-hover:scale-x-100 transition-transform duration-500"></div>
+                </div>
+
+                <!-- Material 2 -->
+                <div class="material-card reveal-up group bg-alva-white p-5 md:p-4 border border-ivory hover:border-matte-gold transition-all duration-300 relative shadow-sm w-full">
+                    <div class="aspect-[16/9] md:aspect-square overflow-hidden mb-4 bg-warm-white">
+                        <img src="https://images.unsplash.com/photo-1590381105924-c72589b9ef3f?auto=format&fit=crop&w=500&q=80" alt="Pedra Quartzito" class="w-full h-full object-cover group-hover:scale-106 transition-transform duration-500" loading="lazy" decoding="async" referrerpolicy="no-referrer">
+                    </div>
+                    <span class="font-serif text-lg text-matte-gold font-medium block">02</span>
+                    <h3 class="text-xs uppercase tracking-wider text-graphite font-semibold mt-1">Pedra Quartzito</h3>
+                    <span class="text-[11px] text-warm-gray italic font-serif mt-0.5 block group-hover:translate-x-1 transition-transform">permanência</span>
+                    <div class="absolute bottom-0 left-0 w-full h-[2px] bg-matte-gold transform scale-x-0 group-hover:scale-x-100 transition-transform duration-500"></div>
+                </div>
+
+                <!-- Material 3 -->
+                <div class="material-card reveal-up group bg-alva-white p-5 md:p-4 border border-ivory hover:border-matte-gold transition-all duration-300 relative shadow-sm w-full">
+                    <div class="aspect-[16/9] md:aspect-square overflow-hidden mb-4 bg-warm-white">
+                        <img src="https://images.unsplash.com/photo-1517646287270-a5a9ca602e5c?auto=format&fit=crop&w=500&q=80" alt="Concreto Ripa" class="w-full h-full object-cover group-hover:scale-106 transition-transform duration-500" loading="lazy" decoding="async" referrerpolicy="no-referrer">
+                    </div>
+                    <span class="font-serif text-lg text-matte-gold font-medium block">03</span>
+                    <h3 class="text-xs uppercase tracking-wider text-graphite font-semibold mt-1">Concreto Ripa</h3>
+                    <span class="text-[11px] text-warm-gray italic font-serif mt-0.5 block group-hover:translate-x-1 transition-transform">textura</span>
+                    <div class="absolute bottom-0 left-0 w-full h-[2px] bg-matte-gold transform scale-x-0 group-hover:scale-x-100 transition-transform duration-500"></div>
+                </div>
+
+                <!-- Material 4 -->
+                <div class="material-card reveal-up group bg-alva-white p-5 md:p-4 border border-ivory hover:border-matte-gold transition-all duration-300 relative shadow-sm w-full">
+                    <div class="aspect-[16/9] md:aspect-square overflow-hidden mb-4 bg-warm-white">
+                        <img src="https://images.unsplash.com/photo-1584100936595-c0654b55a2e2?auto=format&fit=crop&w=500&q=80" alt="Linho Belga" class="w-full h-full object-cover group-hover:scale-106 transition-transform duration-500" loading="lazy" decoding="async" referrerpolicy="no-referrer">
+                    </div>
+                    <span class="font-serif text-lg text-matte-gold font-medium block">04</span>
+                    <h3 class="text-xs uppercase tracking-wider text-graphite font-semibold mt-1">Linho Natural</h3>
+                    <span class="text-[11px] text-warm-gray italic font-serif mt-0.5 block group-hover:translate-x-1 transition-transform">suavidade</span>
+                    <div class="absolute bottom-0 left-0 w-full h-[2px] bg-matte-gold transform scale-x-0 group-hover:scale-x-100 transition-transform duration-500"></div>
+                </div>
+
+                <!-- Material 5 -->
+                <div class="material-card reveal-up group bg-alva-white p-5 md:p-4 border border-ivory hover:border-matte-gold transition-all duration-300 relative shadow-sm w-full">
+                    <div class="aspect-[16/9] md:aspect-square overflow-hidden mb-4 bg-warm-white">
+                        <img src="https://images.unsplash.com/photo-1518531933037-91b2f5f229cc?auto=format&fit=crop&w=500&q=80" alt="Vegetação Nativa" class="w-full h-full object-cover group-hover:scale-106 transition-transform duration-500" loading="lazy" decoding="async" referrerpolicy="no-referrer">
+                    </div>
+                    <span class="font-serif text-lg text-matte-gold font-medium block">05</span>
+                    <h3 class="text-xs uppercase tracking-wider text-graphite font-semibold mt-1">Vegetação Nativa</h3>
+                    <span class="text-[11px] text-warm-gray italic font-serif mt-0.5 block group-hover:translate-x-1 transition-transform">frescor</span>
+                    <div class="absolute bottom-0 left-0 w-full h-[2px] bg-matte-gold transform scale-x-0 group-hover:scale-x-100 transition-transform duration-500"></div>
+                </div>
+
+                <!-- Material 6 -->
+                <div class="material-card reveal-up group bg-alva-white p-5 md:p-4 border border-ivory hover:border-matte-gold transition-all duration-300 relative shadow-sm w-full">
+                    <div class="aspect-[16/9] md:aspect-square overflow-hidden mb-4 bg-warm-white">
+                        <img src="https://images.unsplash.com/photo-1618221195710-dd6b41faaea6?auto=format&fit=crop&w=500&q=80" alt="Latão Fosco" class="w-full h-full object-cover group-hover:scale-106 transition-transform duration-500" loading="lazy" decoding="async" referrerpolicy="no-referrer">
+                    </div>
+                    <span class="font-serif text-lg text-matte-gold font-medium block">06</span>
+                    <h3 class="text-xs uppercase tracking-wider text-graphite font-semibold mt-1">Metal Dourado Fosco</h3>
+                    <span class="text-[11px] text-warm-gray italic font-serif mt-0.5 block group-hover:translate-x-1 transition-transform">brilho sutil</span>
+                    <div class="absolute bottom-0 left-0 w-full h-[2px] bg-matte-gold transform scale-x-0 group-hover:scale-x-100 transition-transform duration-500"></div>
+                </div>
+            </div>
+
+        </div>
+    </section>
+
+    <!-- 8. PROJETOS EM DESTAQUE (CASAS SELECIONADAS) -->
+    <section class="py-24 px-6 md:px-12 bg-deep-red text-warm-white w-full">
+        <div class="max-w-[1400px] mx-auto">
+            
+            <div class="flex flex-col md:flex-row md:items-end justify-between mb-12 reveal-up">
+                <div>
+                    <span class="text-xs uppercase tracking-[0.3em] text-light-gold font-semibold block mb-2">Seleção Especial</span>
+                    <h2 class="font-serif text-4xl md:text-6xl font-light tracking-tight text-warm-white">CASAS SELECIONADAS</h2>
+                </div>
+                
+                <!-- Interactive Selector Tabs -->
+                <div class="flex items-center space-x-4 mt-6 md:mt-0" id="featuredTabs">
+                    <button onclick="switchFeatured(0)" id="featBtn-0" class="px-4 py-2 text-xs uppercase tracking-widest border-b-2 border-matte-gold text-light-gold font-semibold transition-colors touch-compress">01. Casa Alva</button>
+                    <button onclick="switchFeatured(1)" id="featBtn-1" class="px-4 py-2 text-xs uppercase tracking-widest border-b-2 border-transparent text-warm-white/70 hover:text-warm-white transition-colors touch-compress">02. Casa Bosque</button>
+                    <button onclick="switchFeatured(2)" id="featBtn-2" class="px-4 py-2 text-xs uppercase tracking-widest border-b-2 border-transparent text-warm-white/70 hover:text-warm-white transition-colors touch-compress">03. Casa Horizonte</button>
+                </div>
+            </div>
+
+            <!-- Accessibility Region Announcement for Screen Readers -->
+            <div id="featuredLiveRegion" class="sr-only" aria-live="polite">Exibindo Casa Alva</div>
+
+            <!-- Featured Display Dynamic Container -->
+            <div id="featuredDisplay" class="grid grid-cols-1 lg:grid-cols-12 gap-12 items-center bg-alva-white p-8 md:p-12 border border-matte-gold/40 shadow-2xl transition-all duration-500 relative">
+                <!-- Large Image -->
+                <div class="lg:col-span-8 overflow-hidden aspect-[16/10] relative bg-ivory">
+                    <img id="featImg" src="https://images.unsplash.com/photo-1600585154340-be6161a56a0c?auto=format&fit=crop&w=1600&q=80" alt="Casa Alva" class="w-full h-full object-cover transition-all duration-500" loading="lazy" referrerpolicy="no-referrer">
+                </div>
+                
+                <!-- Project Specs -->
+                <div class="lg:col-span-4 flex flex-col justify-between h-full">
+                    <div id="featTextContainer" class="transition-opacity duration-300">
+                        <span id="featNumber" class="font-serif text-3xl text-matte-gold block mb-2">01</span>
+                        <h3 id="featTitle" class="font-serif text-4xl text-graphite mb-2">Casa Alva</h3>
+                        <p id="featLocation" class="text-xs uppercase tracking-widest text-alva-red font-medium mb-6">São Paulo, SP • 720 m²</p>
+                        <p id="featDesc" class="text-xs md:text-sm text-warm-gray leading-relaxed font-light mb-8">
+                            Residência manifesta do ateliê. Uma caixa permeável de concreto e vidro emoldurada por jardim tropical em meio à metrópole.
+                        </p>
+                    </div>
+                    <div>
+                        <button id="featModalBtn" onclick="openProjectModal('Casa Alva', 'São Paulo, SP', '2025', '720 m²', 'https://images.unsplash.com/photo-1600585154340-be6161a56a0c?auto=format&fit=crop&w=1600&q=80', 'Residência manifesta do ateliê. Uma caixa permeável de concreto e vidro emoldurada por jardim tropical em meio à metrópole.')" class="w-full py-3.5 border border-matte-gold bg-alva-red hover:bg-wine text-warm-white text-xs uppercase tracking-[0.25em] transition-all btn-fill-gold touch-compress shadow-md">
+                            Descobrir a casa
+                        </button>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </section>
+
+    <!-- 9. PROCESSO DE ROLAGEM -->
+    <section id="processo" class="py-24 px-6 md:px-12 bg-alva-white w-full relative">
+        <div class="max-w-[1400px] mx-auto">
+            
+            <div class="mb-16 text-center max-w-2xl mx-auto reveal-up">
+                <span class="text-xs uppercase tracking-[0.3em] text-alva-red font-semibold block mb-2">Metodologia Sensorial</span>
+                <h2 class="font-serif text-3xl md:text-5xl text-graphite font-light tracking-tight">DO PRIMEIRO TRAÇO À CASA VIVIDA</h2>
+            </div>
+
+            <!-- Desktop Process Horizontal Container & Mobile Vertical Progress -->
+            <div class="relative">
+                <!-- Desktop Horizontal Line Draw -->
+                <div class="hidden md:block w-full h-[2px] bg-ivory mb-8 relative">
+                    <div id="processLineDesktop" class="h-full bg-matte-gold line-draw-h"></div>
+                </div>
+
+                <!-- Mobile Vertical Line Draw -->
+                <div class="md:hidden absolute left-4 top-0 bottom-0 w-[2px] bg-ivory">
+                    <div id="processLineMobile" class="w-full bg-matte-gold transition-all duration-300"></div>
+                </div>
+
+                <div class="grid grid-cols-1 md:grid-cols-4 gap-8 pl-10 md:pl-0">
+                    
+                    <!-- Step 01 -->
+                    <div class="process-step reveal-up relative">
+                        <span class="step-num font-serif text-3xl text-matte-gold font-semibold block mb-3 transition-colors duration-300">01</span>
+                        <h3 class="font-serif text-2xl text-graphite mb-2">Escuta</h3>
+                        <p class="text-xs text-warm-gray leading-relaxed font-light">
+                            Entendemos o lugar, a orientação solar, a topografia e a rotina afetiva dos moradores.
+                        </p>
+                    </div>
+
+                    <!-- Step 02 -->
+                    <div class="process-step reveal-up relative">
+                        <span class="step-num font-serif text-3xl text-matte-gold font-semibold block mb-3 transition-colors duration-300">02</span>
+                        <h3 class="font-serif text-2xl text-graphite mb-2">Conceito</h3>
+                        <p class="text-xs text-warm-gray leading-relaxed font-light">
+                            Definimos forma, volumetria, matéria e atmosfera sensorial inicial do espaço.
+                        </p>
+                    </div>
+
+                    <!-- Step 03 -->
+                    <div class="process-step reveal-up relative">
+                        <span class="step-num font-serif text-3xl text-matte-gold font-semibold block mb-3 transition-colors duration-300">03</span>
+                        <h3 class="font-serif text-2xl text-graphite mb-2">Projeto</h3>
+                        <p class="text-xs text-warm-gray leading-relaxed font-light">
+                            Desenvolvemos cada solução técnica, detalhamento executivo e compatibilizações.
+                        </p>
+                    </div>
+
+                    <!-- Step 04 -->
+                    <div class="process-step reveal-up relative">
+                        <span class="step-num font-serif text-3xl text-matte-gold font-semibold block mb-3 transition-colors duration-300">04</span>
+                        <h3 class="font-serif text-2xl text-graphite mb-2">Acompanhamento</h3>
+                        <p class="text-xs text-warm-gray leading-relaxed font-light">
+                            Preservamos a intenção arquitetônica e o esmero estético até a entrega das chaves.
+                        </p>
+                    </div>
+
+                </div>
+            </div>
+
+        </div>
+    </section>
+
+    <!-- 10. SOBRE O ATELIÊ (HELENA ALVA) -->
+    <section id="estudio" class="py-24 px-6 md:px-12 bg-warm-white w-full border-t border-b border-ivory">
+        <div class="max-w-[1400px] mx-auto grid grid-cols-1 lg:grid-cols-12 gap-12 items-center">
+            
+            <!-- Architect Photo with Slow Vertical Mask -->
+            <div class="lg:col-span-6 reveal-mask-vert parallax-container">
+                <div class="aspect-[4/5] relative overflow-hidden bg-ivory">
+                    <img src="https://res.cloudinary.com/lvl0nq3r/image/upload/v1787666259/jessica-roma-foto_orblru.webp" alt="Arquiteta Jéssica Ramos em seu estúdio de criação" class="w-full h-full object-cover parallax-img" loading="lazy" decoding="async" referrerpolicy="no-referrer">
+                    <div class="absolute bottom-6 left-6 bg-alva-white/90 p-4 border-l-2 border-matte-gold backdrop-blur-sm">
+                        <span class="text-[10px] uppercase tracking-widest text-alva-red font-semibold block">Direção Criativa</span>
+                        <span class="font-serif text-lg text-graphite">Jéssica Ramos</span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Content -->
+            <div class="lg:col-span-6 flex flex-col justify-center">
+                <span class="reveal-up text-xs uppercase tracking-[0.3em] text-alva-red font-semibold block mb-3">O Estúdio</span>
+                
+                <h2 class="font-serif text-4xl md:text-5xl text-graphite font-light mb-6 leading-tight">
+                    <span class="mask-line-container"><span class="mask-line-inner">“Projetar é transformar</span></span>
+                    <span class="mask-line-container"><span class="mask-line-inner">necessidades em atmosferas.”</span></span>
+                </h2>
+                
+                <p class="reveal-up text-sm text-warm-gray leading-relaxed font-light mb-8">
+                    O Ateliê Alva nasce da busca por uma arquitetura residencial brasileira atemporal, onde a sobriedade das linhas encontra o aconchego da matéria natural. Liderado por Jéssica Ramos, o estúdio assina residências exclusivas que privilegiam a luz natural, a ventilação cruzada e o diálogo com o jardim.
+                </p>
+                
+                <div class="reveal-up relative pb-6 mb-6">
+                    <div class="w-24 h-[1px] bg-matte-gold line-draw-h"></div>
+                </div>
+
+                <div class="reveal-up">
+                    <button onclick="toggleContactModal()" class="inline-flex items-center space-x-3 border border-alva-red text-alva-red px-8 py-3.5 text-xs tracking-[0.25em] uppercase hover:text-warm-white transition-all duration-300 btn-fill-red btn-hover-arrow touch-compress">
+                        <span>Conhecer o ateliê</span>
+                        <svg class="w-4 h-4 text-current" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M17 8l4 4m0 0l-4 4m4-4H3"/></svg>
+                    </button>
+                </div>
+            </div>
+
+        </div>
+    </section>
+
+    <!-- 11. CTA FINAL -->
+    <section class="relative w-full py-28 px-6 md:px-12 bg-wine text-warm-white overflow-hidden flex items-center justify-center">
+        <!-- Background Evening Architecture Image -->
+        <div class="absolute inset-0 z-0 overflow-hidden bg-ivory">
+            <img src="https://images.unsplash.com/photo-1600607687920-4e2a09cf159d?auto=format&fit=crop&w=2000&q=85" alt="Residência iluminada ao anoitecer" class="w-full h-full object-cover transform scale-[1.05] transition-transform duration-[2000ms] ease-out parallax-img" loading="lazy" decoding="async" referrerpolicy="no-referrer">
+            <div class="absolute inset-0 bg-wine/85 mix-blend-multiply"></div>
+            <div class="absolute inset-0 bg-black/30"></div>
+        </div>
+
+        <div class="relative z-10 max-w-[900px] mx-auto text-center">
+            <span class="reveal-up text-xs uppercase tracking-[0.35em] text-light-gold block mb-4 font-medium">Inicie seu projeto</span>
+            
+            <h2 class="font-serif text-4xl sm:text-6xl md:text-7xl font-light tracking-tight mb-8 leading-tight">
+                <span class="mask-line-container"><span class="mask-line-inner">QUAL ATMOSFERA</span></span>
+                <span class="mask-line-container"><span class="mask-line-inner">VOCÊ DESEJA PARA</span></span>
+                <span class="mask-line-container"><span class="mask-line-inner">A SUA CASA?</span></span>
+            </h2>
+            
+            <div class="reveal-up">
+                <button onclick="toggleContactModal()" class="btn-hover-arrow px-10 py-4 bg-matte-gold text-wine font-sans text-xs uppercase tracking-[0.25em] font-semibold hover:bg-light-gold transition-all shadow-xl mb-4 inline-flex items-center space-x-3 btn-fill-gold touch-compress">
+                    <span>Começar um projeto</span>
+                    <svg class="w-4 h-4 text-wine" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M17 8l4 4m0 0l-4 4m4-4H3"/></svg>
+                </button>
+            </div>
+            
+            <p class="reveal-up text-xs uppercase tracking-[0.2em] text-ivory/70 block mt-3 font-light">
+                Atendimento presencial e remoto em todo o Brasil.
+            </p>
+        </div>
+    </section>
+
+    <!-- 12. FOOTER -->
+    <footer id="contato" class="bg-alva-white text-graphite border-t-2 border-matte-gold pt-16 overflow-hidden relative">
+        <div class="max-w-[1400px] mx-auto px-6 md:px-12 pb-16">
+            
+            <div class="grid grid-cols-1 md:grid-cols-12 gap-12 mb-16 stagger-group">
+                <!-- Col 1 -->
+                <div class="reveal-up md:col-span-5">
+                    <span class="font-serif text-2xl tracking-[0.2em] text-alva-red font-semibold block mb-4">ATELIÊ ALVA</span>
+                    <p class="text-xs text-warm-gray leading-relaxed max-w-sm font-light mb-6">
+                        Estúdio de arquitetura residencial, interiores e paisagismo focado no habitar autêntico e na poética dos materiais.
+                    </p>
+                    <p class="text-xs text-warm-gray">São Paulo • Rio de Janeiro • Brasília</p>
+                </div>
+
+                <!-- Col 2: Nav -->
+                <div class="reveal-up md:col-span-3">
+                    <h4 class="text-xs uppercase tracking-[0.2em] text-matte-gold font-semibold mb-4">Navegação</h4>
+                    <ul class="space-y-2 text-xs uppercase tracking-widest text-warm-gray">
+                        <li><a href="#galeria" class="hover:text-alva-red transition-colors gold-underline">Projetos</a></li>
+                        <li><a href="#viver" class="hover:text-alva-red transition-colors gold-underline">Atmosferas</a></li>
+                        <li><a href="#estudio" class="hover:text-alva-red transition-colors gold-underline">Estúdio</a></li>
+                        <li><a href="#processo" class="hover:text-alva-red transition-colors gold-underline">Processo</a></li>
+                    </ul>
+                </div>
+
+                <!-- Col 3: Contact -->
+                <div class="reveal-up md:col-span-4">
+                    <h4 class="text-xs uppercase tracking-[0.2em] text-matte-gold font-semibold mb-4">Contato & Redes</h4>
+                    <ul class="space-y-2 text-xs tracking-wider text-warm-gray">
+                        <li><a href="https://instagram.com" target="_blank" rel="noopener" class="hover:text-alva-red transition-colors inline-flex items-center gap-2 gold-underline"><span>Instagram</span><span class="text-[10px]">↗</span></a></li>
+                        <li><a href="https://whatsapp.com" target="_blank" rel="noopener" class="hover:text-alva-red transition-colors inline-flex items-center gap-2 gold-underline"><span>WhatsApp Direct</span><span class="text-[10px]">↗</span></a></li>
+                        <li class="pt-2"><a href="mailto:contato@ateliealva.com.br" class="text-graphite hover:text-alva-red font-medium gold-underline">contato@ateliealva.com.br</a></li>
+                    </ul>
+                </div>
+            </div>
+
+            <div class="flex flex-col sm:flex-row justify-between items-center text-[11px] text-warm-gray border-t border-ivory pt-8">
+                <p>© 2026 Ateliê Alva. Todos os direitos reservados.</p>
+                <p class="mt-2 sm:mt-0">Arquitetura Residencial Brasileira</p>
+            </div>
+        </div>
+
+        <!-- Giant Typography Banner "JÉSSICA" with Scroll Parallax -->
+        <div class="w-full overflow-hidden select-none pointer-events-none leading-none -mb-8 sm:-mb-16 md:-mb-24 opacity-90 text-center">
+            <span id="giantFooterText" class="font-serif text-[16vw] sm:text-[18vw] md:text-[20vw] font-bold text-alva-red tracking-tight inline-block transform translate-y-1/4 transition-transform duration-300 whitespace-nowrap">
+                JÉSSICA
+            </span>
+        </div>
+    </footer>
+
+    <!-- INTERACTIVE MODAL 1: Project Details Dialog -->
+    <div id="projectModal" class="fixed inset-0 z-50 dialog-backdrop flex items-center justify-center p-4 opacity-0 pointer-events-none" role="dialog" aria-modal="true" aria-labelledby="modalTitle">
+        <div class="modal-panel bg-alva-white border border-matte-gold max-w-3xl w-full max-h-[90vh] overflow-y-auto p-6 md:p-8 relative shadow-2xl">
+            <!-- Top Close Button -->
+            <button onclick="closeProjectModal()" class="absolute top-4 right-4 z-20 bg-alva-white/90 hover:bg-alva-white text-graphite hover:text-alva-red p-2 rounded-full border border-matte-gold/40 shadow-sm focus:outline-none touch-compress transition-colors" aria-label="Fechar janela">✕</button>
+            
+            <!-- 1. Main Project Image (Top) -->
+            <div class="aspect-[16/10] overflow-hidden mb-6 bg-warm-white relative border border-ivory">
+                <img id="modalImg" src="https://images.unsplash.com/photo-1600596542815-ffad4c1539a9?auto=format&fit=crop&w=1200&q=85" alt="Projeto ampliado" class="w-full h-full object-cover" referrerpolicy="no-referrer">
+            </div>
+
+            <!-- 2. Project Information & Metadata (Below Image) -->
+            <div class="space-y-4">
+                <div class="flex flex-col sm:flex-row sm:items-baseline justify-between gap-2 border-b border-ivory pb-4">
+                    <div>
+                        <span id="modalCategory" class="text-[10px] uppercase tracking-[0.3em] text-alva-red font-semibold block mb-1">Projeto Autoral</span>
+                        <h2 id="modalTitle" class="font-serif text-3xl md:text-4xl text-graphite">Casa Mata</h2>
+                    </div>
+                    <div class="flex space-x-3 text-xs text-matte-gold uppercase tracking-widest font-medium">
+                        <span id="modalLocation">Nova Lima, MG</span>
+                        <span>•</span>
+                        <span id="modalYear">2025</span>
+                        <span>•</span>
+                        <span id="modalArea">680 m²</span>
+                    </div>
+                </div>
+
+                <p id="modalDesc" class="text-sm text-warm-gray leading-relaxed font-light py-1">
+                    Descrição do projeto...
+                </p>
+            </div>
+
+            <!-- 3. Action Footer -->
+            <div class="flex flex-col sm:flex-row justify-between items-center gap-4 pt-4 border-t border-ivory mt-4">
+                <button onclick="closeProjectModal(); toggleContactModal();" class="w-full sm:w-auto px-6 py-3 bg-alva-red text-warm-white text-xs uppercase tracking-widest hover:bg-wine transition-colors btn-fill-gold touch-compress shadow-md">
+                    Solicitar projeto semelhante
+                </button>
+                <button onclick="closeProjectModal()" class="text-xs uppercase tracking-widest text-warm-gray hover:text-graphite touch-compress">
+                    Fechar
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- INTERACTIVE MODAL 2: Agendar Conversa / Contact Form -->
+    <div id="contactModal" class="fixed inset-0 z-50 dialog-backdrop flex items-center justify-center p-4 opacity-0 pointer-events-none" role="dialog" aria-modal="true" aria-labelledby="contactModalTitle">
+        <div class="modal-panel bg-warm-white border border-matte-gold max-w-xl w-full p-8 md:p-10 relative shadow-2xl">
+            <button onclick="toggleContactModal()" class="absolute top-6 right-6 text-graphite hover:text-alva-red text-2xl font-serif focus:outline-none touch-compress" aria-label="Fechar janela">✕</button>
+
+            <span class="text-[10px] uppercase tracking-[0.3em] text-alva-red font-semibold block mb-2">Atendimento Exclusivo</span>
+            <h2 id="contactModalTitle" class="font-serif text-3xl text-graphite mb-2">AGENDAR CONVERSA</h2>
+            <p class="text-xs text-warm-gray mb-6">Preencha os dados abaixo para alinharmos os primeiros traços da sua futura residência com o ateliê.</p>
+
+            <form onsubmit="handleFormSubmit(event)" class="space-y-4">
+                <div>
+                    <label class="block text-[10px] uppercase tracking-widest text-graphite font-semibold mb-1">Nome Completo *</label>
+                    <input type="text" required placeholder="Seu nome" class="w-full p-3 bg-alva-white border border-ivory text-xs focus:border-matte-gold focus:outline-none">
+                </div>
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                    <div>
+                        <label class="block text-[10px] uppercase tracking-widest text-graphite font-semibold mb-1">E-mail *</label>
+                        <input type="email" required placeholder="seu@email.com" class="w-full p-3 bg-alva-white border border-ivory text-xs focus:border-matte-gold focus:outline-none">
+                    </div>
+                    <div>
+                        <label class="block text-[10px] uppercase tracking-widest text-graphite font-semibold mb-1">Telefone / WhatsApp *</label>
+                        <input type="tel" required placeholder="(11) 99999-9999" class="w-full p-3 bg-alva-white border border-ivory text-xs focus:border-matte-gold focus:outline-none">
+                    </div>
+                </div>
+                <div>
+                    <label class="block text-[10px] uppercase tracking-widest text-graphite font-semibold mb-1">Local do Projeto & Cidade</label>
+                    <input type="text" placeholder="Ex: São Paulo - SP" class="w-full p-3 bg-alva-white border border-ivory text-xs focus:border-matte-gold focus:outline-none">
+                </div>
+                <div>
+                    <label class="block text-[10px] uppercase tracking-widest text-graphite font-semibold mb-1">Mensagem ou Detalhes do Terreno</label>
+                    <textarea rows="3" placeholder="Conte-nos brevemente sobre suas expectativas..." class="w-full p-3 bg-alva-white border border-ivory text-xs focus:border-matte-gold focus:outline-none"></textarea>
+                </div>
+                <button type="submit" class="w-full py-3.5 bg-alva-red text-warm-white text-xs uppercase tracking-[0.25em] font-semibold border border-matte-gold hover:bg-wine transition-all btn-fill-gold touch-compress shadow-md">
+                    Enviar solicitação
+                </button>
+            </form>
+            <div id="formFeedback" class="hidden mt-4 p-3 bg-green-900/20 text-green-800 text-xs text-center border border-green-800/30 font-medium">
+                Solicitação enviada com sucesso! Entraremos em contato em breve.
+            </div>
+        </div>
+    </div>
+
+    <!-- INTERACTIVE MODAL 3: Search Dialog -->
+    <div id="searchModal" class="fixed inset-0 z-50 dialog-backdrop flex items-center justify-center p-4 opacity-0 pointer-events-none" role="dialog" aria-modal="true" aria-labelledby="searchModalTitle">
+        <div class="modal-panel bg-alva-white border border-matte-gold max-w-lg w-full p-8 relative shadow-2xl">
+            <button onclick="toggleSearchModal()" class="absolute top-6 right-6 text-graphite hover:text-alva-red text-2xl font-serif focus:outline-none touch-compress" aria-label="Fechar busca">✕</button>
+
+            <span class="text-[10px] uppercase tracking-[0.3em] text-alva-red font-semibold block mb-2">Acervo Ateliê</span>
+            <h2 id="searchModalTitle" class="font-serif text-2xl text-graphite mb-4">BUSCAR NO PORTFÓLIO</h2>
+            
+            <input type="text" id="searchInput" onkeyup="filterSearch()" placeholder="Digite localização, material ou estilo (ex: Trancoso, Madeira, Mármore)..." class="w-full p-3 bg-warm-white border border-matte-gold text-xs focus:outline-none mb-4">
+            
+            <div id="searchResults" class="space-y-2 max-h-48 overflow-y-auto text-xs">
+                <p class="text-warm-gray italic">Digite para filtrar os projetos autorais...</p>
+            </div>
+        </div>
+    </div>
+
+    <!-- JavaScript Choreography Engine -->
+    <script>
+        // Check for Reduced Motion Preference
+        const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+        // Safety fallback function: guarantees no content is left hidden
+        function revealAllContent() {
+            document.querySelectorAll('.reveal-up, .reveal-left, .reveal-right, .reveal-scale, .reveal-mask-vert, .reveal-mask-horiz, .line-draw-h, .line-draw-v, .mask-line-inner').forEach(el => {
+                el.classList.add('is-revealed');
+            });
+        }
+
+        // 1. Entrance Splash Execution (Runs once per session)
+        document.addEventListener("DOMContentLoaded", () => {
+            // Add motion-ready class only after DOM is ready
+            document.documentElement.classList.add('motion-ready');
+
+            const splash = document.getElementById('introSplash');
+            const splashLogoImg = document.getElementById('splashLogoImg');
+            const splashLine = document.getElementById('splashLine');
+
+            if (prefersReducedMotion) {
+                if (splash) splash.style.display = 'none';
+                revealHeroSequence();
+                revealAllContent();
+                return;
+            }
+
+            // Animate Logo & Gold Line Entrance
+            setTimeout(() => {
+                if (splashLogoImg) {
+                    splashLogoImg.style.opacity = '1';
+                    splashLogoImg.style.transform = 'scale(1) translateY(0)';
+                }
+                if (splashLine) {
+                    splashLine.style.opacity = '1';
+                    splashLine.style.transform = 'translateX(0)';
+                }
+            }, 100);
+
+            // Hide Intro Splash and Reveal Hero
+            setTimeout(() => {
+                if (splash) {
+                    splash.style.opacity = '0';
+                    setTimeout(() => {
+                        splash.style.display = 'none';
+                        revealHeroSequence();
+                    }, 700);
+                }
+            }, 2200);
+
+            // Universal safety timeout
+            setTimeout(revealAllContent, 3500);
+        });
+
+        // 2. Hero Reveal Sequence
+        function revealHeroSequence() {
+            const heroBg = document.getElementById('heroBgImage');
+            if (heroBg) {
+                heroBg.style.transform = 'scale(1) translateY(0)';
+            }
+
+            // Trigger line masks inside hero
+            const heroLines = document.querySelectorAll('#heroContent .mask-line-inner');
+            heroLines.forEach((line, idx) => {
+                setTimeout(() => {
+                    line.classList.add('is-revealed');
+                }, idx * 120);
+            });
+
+            // Trigger reveal-up items in hero
+            const heroReveals = document.querySelectorAll('#heroContent .reveal-up, #heroSection .reveal-up');
+            heroReveals.forEach((el, idx) => {
+                setTimeout(() => {
+                    el.classList.add('is-revealed');
+                }, 300 + idx * 100);
+            });
+        }
+
+        // 3. Consolidated Scroll RAF Loop for Parallax, Header & Process Progress
+        let lastScrollY = window.scrollY;
+        let isTicking = false;
+
+        window.addEventListener('scroll', () => {
+            if (!isTicking) {
+                window.requestAnimationFrame(updateScrollState);
+                isTicking = true;
+            }
+        }, { passive: true });
+
+        function updateScrollState() {
+            const currentY = window.scrollY;
+            const scrollDelta = currentY - lastScrollY;
+
+            // A. Header Transformation & Smart Hide on Mobile
+            const header = document.getElementById('mainHeader');
+            const logoBg = document.getElementById('headerLogoBg');
+            const logoText = document.getElementById('headerLogoText');
+            const navLinks = document.querySelectorAll('.nav-link');
+            const isDrawerOpen = document.getElementById('mobileDrawerPanel')?.classList.contains('translate-x-0');
+            const isModalOpen = document.querySelectorAll('.dialog-backdrop.is-open').length > 0;
+
+            if (currentY > 80) {
+                header.classList.add('header-scrolled', 'py-3');
+                header.classList.remove('py-6');
+                logoBg.classList.add('bg-alva-red', 'border-alva-red');
+                logoBg.classList.remove('bg-wine/30');
+                logoText.classList.add('text-warm-white');
+                navLinks.forEach(link => {
+                    link.classList.remove('text-white');
+                    link.classList.add('text-wine');
+                });
+            } else {
+                header.classList.remove('header-scrolled', 'py-3');
+                header.classList.add('py-6');
+                logoBg.classList.remove('bg-alva-red', 'border-alva-red');
+                logoBg.classList.add('bg-wine/30');
+                navLinks.forEach(link => {
+                    link.classList.add('text-white');
+                    link.classList.remove('text-wine');
+                });
+            }
+
+            // Smart Mobile Header Hide/Show
+            if (window.innerWidth < 768 && !isDrawerOpen && !isModalOpen && currentY > 200) {
+                if (scrollDelta > 8) {
+                    header.style.transform = 'translateY(-100%)';
+                } else if (scrollDelta < -8) {
+                    header.style.transform = 'translateY(0)';
+                }
+            } else {
+                header.style.transform = 'translateY(0)';
+            }
+
+            // B. Hero Content Fade (first 35% scroll)
+            const heroContent = document.getElementById('heroContent');
+            if (heroContent && currentY < 600) {
+                const opacityVal = Math.max(0, 1 - (currentY / 350));
+                heroContent.style.opacity = opacityVal.toFixed(2);
+            }
+
+            // C. Parallax Elements Calculation
+            if (!prefersReducedMotion) {
+                const maxShift = window.innerWidth < 768 ? 12 : 36;
+                const parallaxImgs = document.querySelectorAll('.parallax-img');
+                parallaxImgs.forEach(img => {
+                    const rect = img.parentElement.getBoundingClientRect();
+                    if (rect.top < window.innerHeight && rect.bottom > 0) {
+                        const progress = (rect.top + rect.height / 2 - window.innerHeight / 2) / window.innerHeight;
+                        const shift = progress * maxShift;
+                        img.style.transform = `scale(1.05) translateY(${shift.toFixed(1)}px)`;
+                    }
+                });
+
+                // Giant Footer Text Horizontal Shift
+                const giantFooter = document.getElementById('giantFooterText');
+                if (giantFooter) {
+                    const fRect = giantFooter.getBoundingClientRect();
+                    if (fRect.top < window.innerHeight) {
+                        if (window.innerWidth >= 768) {
+                            const fProgress = (window.innerHeight - fRect.top) / window.innerHeight;
+                            const shiftX = (fProgress * 2).toFixed(1);
+                            giantFooter.style.transform = `translateY(25%) translateX(${shiftX}vw)`;
+                        } else {
+                            giantFooter.style.transform = `translateY(25%)`;
+                        }
+                    }
+                }
+            }
+
+            // D. Process Line Vertical Draw (Mobile)
+            const processSection = document.getElementById('processo');
+            const processLineMobile = document.getElementById('processLineMobile');
+            if (processSection && processLineMobile) {
+                const pRect = processSection.getBoundingClientRect();
+                if (pRect.top < window.innerHeight * 0.8 && pRect.bottom > 0) {
+                    const totalH = pRect.height;
+                    const scrolledH = (window.innerHeight * 0.6) - pRect.top;
+                    const pct = Math.min(100, Math.max(0, (scrolledH / totalH) * 100));
+                    processLineMobile.style.height = `${pct}%`;
+                }
+            }
+
+            lastScrollY = currentY;
+            isTicking = false;
+        }
+
+        // 4. Mobile Drawer Controls
+        const mobileMenuBtn = document.getElementById('mobileMenuBtn');
+        const closeDrawerBtn = document.getElementById('closeDrawerBtn');
+        const mobileDrawerPanel = document.getElementById('mobileDrawerPanel');
+        const mobileDrawerBackdrop = document.getElementById('mobileDrawerBackdrop');
+
+        function openMobileDrawer() {
+            mobileDrawerBackdrop.classList.remove('opacity-0', 'pointer-events-none');
+            mobileDrawerBackdrop.classList.add('opacity-100');
+            mobileDrawerPanel.classList.remove('translate-x-full');
+            mobileDrawerPanel.classList.add('translate-x-0');
+            document.body.style.overflow = 'hidden';
+        }
+
+        function closeMobileDrawer() {
+            mobileDrawerBackdrop.classList.add('opacity-0', 'pointer-events-none');
+            mobileDrawerBackdrop.classList.remove('opacity-100');
+            mobileDrawerPanel.classList.add('translate-x-full');
+            mobileDrawerPanel.classList.remove('translate-x-0');
+            document.body.style.overflow = '';
+        }
+
+        mobileMenuBtn.addEventListener('click', openMobileDrawer);
+        closeDrawerBtn.addEventListener('click', closeMobileDrawer);
+        mobileDrawerBackdrop.addEventListener('click', closeMobileDrawer);
+
+        // 5. Portfolio Tab Indicator and Switcher
+        let isTabTransitioning = false;
+
+        function updateTabIndicator(activeBtn) {
+            const indicator = document.getElementById('tabIndicator');
+            if (indicator && activeBtn) {
+                indicator.style.left = `${activeBtn.offsetLeft}px`;
+                indicator.style.width = `${activeBtn.offsetWidth}px`;
+            }
+        }
+
+        window.addEventListener('resize', () => {
+            const activeBtn = document.querySelector('.tab-btn[aria-selected="true"]');
+            if (activeBtn) updateTabIndicator(activeBtn);
+        });
+
+        document.addEventListener("DOMContentLoaded", () => {
+            const activeBtn = document.querySelector('.tab-btn[aria-selected="true"]');
+            if (activeBtn) updateTabIndicator(activeBtn);
+        });
+
+        function switchTab(tabName) {
+            if (isTabTransitioning) return;
+            isTabTransitioning = true;
+
+            const buttons = document.querySelectorAll('.tab-btn');
+            const activeBtn = document.getElementById('tab-' + tabName);
+
+            buttons.forEach(btn => {
+                btn.classList.remove('text-alva-red', 'font-medium');
+                btn.classList.add('text-warm-gray');
+                btn.setAttribute('aria-selected', 'false');
+            });
+
+            if (activeBtn) {
+                activeBtn.classList.add('text-alva-red', 'font-medium');
+                activeBtn.classList.remove('text-warm-gray');
+                activeBtn.setAttribute('aria-selected', 'true');
+                updateTabIndicator(activeBtn);
+            }
+
+            const currentActiveTab = document.querySelector('.tab-content:not(.hidden)');
+            const newActiveTab = document.getElementById('content-' + tabName);
+
+            if (currentActiveTab && newActiveTab && currentActiveTab !== newActiveTab) {
+                currentActiveTab.style.opacity = '0';
+                currentActiveTab.style.transform = 'translateY(8px)';
+
+                setTimeout(() => {
+                    currentActiveTab.classList.add('hidden');
+                    newActiveTab.classList.remove('hidden');
+                    newActiveTab.style.opacity = '0';
+                    newActiveTab.style.transform = 'translateY(8px)';
+
+                    requestAnimationFrame(() => {
+                        newActiveTab.style.opacity = '1';
+                        newActiveTab.style.transform = 'translateY(0)';
+                        isTabTransitioning = false;
+                    });
+                }, 160);
+            } else {
+                isTabTransitioning = false;
+            }
+        }
+
+        // Mobile Gallery Scroll Progress Bar
+        const activeGalleryScroll = document.querySelector('#content-residencias .overflow-x-auto');
+        if (activeGalleryScroll) {
+            activeGalleryScroll.addEventListener('scroll', (e) => {
+                const target = e.target;
+                const max = target.scrollWidth - target.clientWidth;
+                const pct = (target.scrollLeft / max) * 100;
+                const progBar = document.getElementById('galleryMobileProgress');
+                if (progBar) progBar.style.width = `${Math.max(20, pct)}%`;
+            }, { passive: true });
+        }
+
+        // 6. Featured Projects Data & Interactive Switcher
+        const featuredData = [
+            {
+                number: "01",
+                title: "Casa Alva",
+                location: "São Paulo, SP • 720 m²",
+                desc: "Residência manifesta do ateliê. Uma caixa permeável de concreto e vidro emoldurada por jardim tropical em meio à metrópole.",
+                img: "https://images.unsplash.com/photo-1600585154340-be6161a56a0c?auto=format&fit=crop&w=1600&q=80",
+                year: "2025"
+            },
+            {
+                number: "02",
+                title: "Casa Bosque",
+                location: "Petrópolis, RJ • 580 m²",
+                desc: "Estrutura em madeira laminada colada (MLC) encravada na Serra Fluminense, permitindo entrada contínua de luz filtrada pela mata.",
+                img: "https://images.unsplash.com/photo-1600596542815-ffad4c1539a9?auto=format&fit=crop&w=1600&q=80",
+                year: "2024"
+            },
+            {
+                number: "03",
+                title: "Casa Horizonte",
+                location: "Nova Lima, MG • 810 m²",
+                desc: "Balanço arquitetônico suspenso sobre a cordilheira, com caixilhos retráteis que convertem toda a sala em varanda panorâmica.",
+                img: "https://images.unsplash.com/photo-1600607687939-ce8a6c25118c?auto=format&fit=crop&w=1600&q=80",
+                year: "2024"
+            }
+        ];
+
+        // Image Preloading for Seamless Editorial Transitions
+        featuredData.forEach(item => {
+            const img = new Image();
+            img.src = item.img;
+        });
+
+        let currentFeaturedIndex = 0;
+        let isFeaturedTransitioning = false;
+
+        function switchFeatured(index) {
+            if (index === currentFeaturedIndex || isFeaturedTransitioning) return;
+            isFeaturedTransitioning = true;
+
+            const data = featuredData[index];
+            currentFeaturedIndex = index;
+
+            const featImg = document.getElementById('featImg');
+            const textContainer = document.getElementById('featTextContainer');
+            const liveRegion = document.getElementById('featuredLiveRegion');
+
+            // Tabs UI update
+            for (let i = 0; i < 3; i++) {
+                const btn = document.getElementById(`featBtn-${i}`);
+                if (btn) {
+                    if (i === index) {
+                        btn.className = "px-4 py-2 text-xs uppercase tracking-widest border-b-2 border-matte-gold text-light-gold font-semibold transition-colors touch-compress";
+                    } else {
+                        btn.className = "px-4 py-2 text-xs uppercase tracking-widest border-b-2 border-transparent text-warm-white/70 hover:text-warm-white transition-colors touch-compress";
+                    }
+                }
+            }
+
+            // Animate Out
+            if (featImg) featImg.style.opacity = '0.4';
+            if (featImg) featImg.style.transform = 'scale(0.985)';
+            if (textContainer) textContainer.style.opacity = '0';
+
+            setTimeout(() => {
+                document.getElementById('featNumber').innerText = data.number;
+                document.getElementById('featTitle').innerText = data.title;
+                document.getElementById('featLocation').innerText = data.location;
+                document.getElementById('featDesc').innerText = data.desc;
+                if (featImg) featImg.src = data.img;
+
+                if (liveRegion) liveRegion.innerText = `Exibindo ${data.title}`;
+
+                // Update Modal Action
+                document.getElementById('featModalBtn').onclick = function() {
+                    openProjectModal(data.title, data.location, data.year, '720 m²', data.img, data.desc);
+                };
+
+                // Animate In
+                setTimeout(() => {
+                    if (featImg) featImg.style.opacity = '1';
+                    if (featImg) featImg.style.transform = 'scale(1)';
+                    if (textContainer) textContainer.style.opacity = '1';
+                    isFeaturedTransitioning = false;
+                }, 50);
+            }, 250);
+        }
+
+        // Swipe Gestures for Selected Houses Display (Mobile)
+        let touchStartX = 0;
+        let touchEndX = 0;
+        const featDisplay = document.getElementById('featuredDisplay');
+
+        if (featDisplay) {
+            featDisplay.addEventListener('touchstart', e => {
+                touchStartX = e.changedTouches[0].screenX;
+            }, { passive: true });
+
+            featDisplay.addEventListener('touchend', e => {
+                touchEndX = e.changedTouches[0].screenX;
+                handleFeatSwipe();
+            }, { passive: true });
+        }
+
+        function handleFeatSwipe() {
+            if (touchEndX < touchStartX - 40) {
+                const nextIdx = (currentFeaturedIndex + 1) % featuredData.length;
+                switchFeatured(nextIdx);
+            }
+            if (touchEndX > touchStartX + 40) {
+                const prevIdx = (currentFeaturedIndex - 1 + featuredData.length) % featuredData.length;
+                switchFeatured(prevIdx);
+            }
+        }
+
+        // 7. Generic Modal Dialog Logic with Focus Trap & Body Scroll Lock
+        let activeModal = null;
+        let previousFocusedElement = null;
+
+        function openModal(modalId) {
+            previousFocusedElement = document.activeElement;
+            const modal = document.getElementById(modalId);
+            if (!modal) return;
+
+            modal.classList.remove('pointer-events-none');
+            modal.classList.add('is-open');
+            modal.style.opacity = '1';
+            document.body.style.overflow = 'hidden';
+            activeModal = modal;
+
+            const focusables = modal.querySelectorAll('button, [href], input, select, textarea, [tabindex]:not([tabindex="-1"])');
+            if (focusables.length > 0) {
+                focusables[0].focus();
+            }
+        }
+
+        function closeModal(modalId) {
+            const modal = document.getElementById(modalId);
+            if (!modal) return;
+
+            modal.style.opacity = '0';
+            modal.classList.remove('is-open');
+            
+            setTimeout(() => {
+                modal.classList.add('pointer-events-none');
+                document.body.style.overflow = '';
+                if (previousFocusedElement) previousFocusedElement.focus();
+                activeModal = null;
+            }, 240);
+        }
+
+        // Global Keydown Handler (Escape Key Close)
+        document.addEventListener('keydown', (e) => {
+            if (e.key === 'Escape') {
+                if (activeModal) closeModal(activeModal.id);
+                const mobileDrawerPanel = document.getElementById('mobileDrawerPanel');
+                if (mobileDrawerPanel && mobileDrawerPanel.classList.contains('translate-x-0')) {
+                    closeMobileDrawer();
+                }
+            }
+        });
+
+        // Close on Backdrop Click
+        document.querySelectorAll('.dialog-backdrop').forEach(modal => {
+            modal.addEventListener('click', (e) => {
+                if (e.target === modal) {
+                    closeModal(modal.id);
+                }
+            });
+        });
+
+        // Lightbox Project Modal Wrapper
+        function openProjectModal(title, location, year, area, imgUrl, desc) {
+            document.getElementById('modalTitle').innerText = title;
+            document.getElementById('modalLocation').innerText = location;
+            document.getElementById('modalYear').innerText = year;
+            document.getElementById('modalArea').innerText = area;
+            document.getElementById('modalImg').src = imgUrl;
+            document.getElementById('modalDesc').innerText = desc;
+
+            openModal('projectModal');
+        }
+
+        function closeProjectModal() {
+            closeModal('projectModal');
+        }
+
+        // Contact Modal Wrapper
+        function toggleContactModal() {
+            const modal = document.getElementById('contactModal');
+            if (modal.classList.contains('is-open')) {
+                closeModal('contactModal');
+            } else {
+                openModal('contactModal');
+            }
+        }
+
+        function handleFormSubmit(e) {
+            e.preventDefault();
+            const feedback = document.getElementById('formFeedback');
+            if (feedback) feedback.classList.remove('hidden');
+            setTimeout(() => {
+                if (feedback) feedback.classList.add('hidden');
+                closeModal('contactModal');
+            }, 2200);
+        }
+
+        // Search Modal Wrapper
+        function toggleSearchModal() {
+            const modal = document.getElementById('searchModal');
+            if (modal.classList.contains('is-open')) {
+                closeModal('searchModal');
+            } else {
+                openModal('searchModal');
+                setTimeout(() => {
+                    const inp = document.getElementById('searchInput');
+                    if (inp) inp.focus();
+                }, 100);
+            }
+        }
+
+        // Search Filtering Logic
+        const allProjects = [
+            { name: "Casa Mata", loc: "Nova Lima, MG", tags: "madeira concreto floresta mata" },
+            { name: "Casa Pátio", loc: "Brasília, DF", tags: "pátio luz cobogó azulejos" },
+            { name: "Casa Brisa", loc: "Trancoso, BA", tags: "praia sol mar deita varanda" },
+            { name: "Apartamento Terra", loc: "São Paulo, SP", tags: "interiores freijó mármore" },
+            { name: "Loft Luz", loc: "Curitiba, PR", tags: "iluminação cênica integrado" },
+            { name: "Casa Alva", loc: "São Paulo, SP", tags: "residência principal metrópole" }
+        ];
+
+        function filterSearch() {
+            const query = document.getElementById('searchInput').value.toLowerCase();
+            const container = document.getElementById('searchResults');
+
+            if (!query) {
+                container.innerHTML = '<p class="text-warm-gray italic">Digite para filtrar os projetos autorais...</p>';
+                return;
+            }
+
+            const filtered = allProjects.filter(p => p.name.toLowerCase().includes(query) || p.loc.toLowerCase().includes(query) || p.tags.toLowerCase().includes(query));
+
+            if (filtered.length === 0) {
+                container.innerHTML = '<p class="text-warm-gray">Nenhum projeto encontrado para esta busca.</p>';
+            } else {
+                container.innerHTML = filtered.map(p => `
+                    <div class="p-2 border-b border-ivory hover:bg-warm-white cursor-pointer flex justify-between touch-compress" onclick="closeModal('searchModal'); openProjectModal('${p.name}', '${p.loc}', '2025', 'Projeto Autoral', 'https://images.unsplash.com/photo-1600585154340-be6161a56a0c?auto=format&fit=crop&w=1000&q=80', 'Detalhes do projeto ${p.name} localizado em ${p.loc}.')">
+                        <span class="font-serif font-medium text-graphite">${p.name}</span>
+                        <span class="text-matte-gold uppercase text-[10px]">${p.loc}</span>
+                    </div>
+                `).join('');
+            }
+        }
+
+        // 8. Intersection Observer for Scroll Reveals
+        document.addEventListener("DOMContentLoaded", function() {
+            const observerOptions = {
+                root: null,
+                rootMargin: '0px 0px -8% 0px',
+                threshold: 0.12
+            };
+
+            const revealObserver = new IntersectionObserver((entries, observer) => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        entry.target.classList.add('is-revealed');
+
+                        // Line draws inside element
+                        const lines = entry.target.querySelectorAll('.line-draw-h, .line-draw-v');
+                        lines.forEach(line => line.classList.add('is-revealed'));
+
+                        // Mask text lines inside element
+                        const maskLines = entry.target.querySelectorAll('.mask-line-inner');
+                        maskLines.forEach(line => line.classList.add('is-revealed'));
+
+                        // Stop observing once animated
+                        observer.unobserve(entry.target);
+                    }
+                });
+            }, observerOptions);
+
+            // Observe all reveal elements
+            const revealSelector = '.reveal-up, .reveal-left, .reveal-right, .reveal-scale, .reveal-mask-vert, .reveal-mask-horiz, .line-draw-h, .line-draw-v';
+            document.querySelectorAll(revealSelector).forEach(el => revealObserver.observe(el));
+
+            // Highlight mobile editorial panels when in viewport center
+            if (window.innerWidth < 1024) {
+                const panelObserver = new IntersectionObserver((entries) => {
+                    entries.forEach(entry => {
+                        const goldLine = entry.target.querySelector('.panel-gold-line');
+                        if (entry.isIntersecting && goldLine) {
+                            goldLine.style.transform = 'scaleX(1)';
+                        } else if (goldLine) {
+                            goldLine.style.transform = 'scaleX(0)';
+                        }
+                    });
+                }, { threshold: 0.6 });
+
+                document.querySelectorAll('.editorial-panel').forEach(panel => panelObserver.observe(panel));
+
+                // Mobile Auto-reveal Red Filter & Explore Button on Gallery Cards as user scrolls
+                const cardObserver = new IntersectionObserver((entries) => {
+                    entries.forEach(entry => {
+                        if (entry.isIntersecting) {
+                            entry.target.classList.add('is-card-active');
+                        } else {
+                            entry.target.classList.remove('is-card-active');
+                        }
+                    });
+                }, { threshold: 0.5 });
+
+                document.querySelectorAll('.gallery-card').forEach(card => cardObserver.observe(card));
+
+                // Horizontal scroll listener for gallery containers on touch scroll
+                const galleryContainers = document.querySelectorAll('.tab-content .overflow-x-auto');
+                galleryContainers.forEach(container => {
+                    let scrollTimeout;
+                    container.addEventListener('scroll', () => {
+                        clearTimeout(scrollTimeout);
+                        scrollTimeout = setTimeout(() => {
+                            const cards = container.querySelectorAll('.gallery-card');
+                            const containerCenter = container.getBoundingClientRect().left + container.offsetWidth / 2;
+                            let closestCard = null;
+                            let minDistance = Infinity;
+
+                            cards.forEach(card => {
+                                const rect = card.getBoundingClientRect();
+                                const cardCenter = rect.left + rect.width / 2;
+                                const distance = Math.abs(containerCenter - cardCenter);
+                                if (distance < minDistance) {
+                                    minDistance = distance;
+                                    closestCard = card;
+                                }
+                            });
+
+                            cards.forEach(card => {
+                                if (card === closestCard) {
+                                    card.classList.add('is-card-active');
+                                } else {
+                                    card.classList.remove('is-card-active');
+                                }
+                            });
+                        }, 50);
+                    }, { passive: true });
+                });
+            }
+        });
+    </script>
+</body>
+</html>

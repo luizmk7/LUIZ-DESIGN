@@ -1,0 +1,6 @@
+{
+  "name": "Jéssica Ramos — Arquitetura Residencial",
+  "description": "Landing page premium para a arquiteta Jéssica Ramos em Vitória da Conquista, BA.",
+  "requestFramePermissions": [],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}
